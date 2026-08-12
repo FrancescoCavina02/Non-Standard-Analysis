@@ -1,0 +1,22 @@
+\section{Non Standard Axioms}
+We define the increment operator $\pp$ of a natural number $n$ to mean the successor of $n$. For example, $\suc{0}=1$.
+
+We start by introducing the five Peano axioms that will allow us to build all of the known standard real analysis, as done in \cite{tao2022analysis}. After, we'll add a sixth axiom that introduces the notion of a number greater than any natural number. 
+\axm{0 is a natural number.}
+\axm{If $n$ is a natural number, $\suc{n}$ is also a natural number.}
+\axm{0 is not the successor of any natural number; i.e., we have $\suc{n} \neq 0$ for every natural number $n$.}
+\axm{Different natural numbers must have different successors; i.e., if $n$, $m$ are natural numbers and $n \neq m$, then $\suc{n} \neq \suc{m}$. Equivalently, if $\suc{n} = \suc{m}$, then we must have $n = m$.}
+\axm{(Principle of mathematical induction). Let $P(n)$ be any
+property pertaining to a natural number $n$. Suppose that $P(0)$ is true,
+and suppose that whenever $P(n)$ is true, $P(\suc{n})$ is also true. Then
+$P(n)$ is true for every natural number $n$.}
+\newline
+
+At this point one could follow the same exact path followed by \cite{tao2022analysis} and derive all of the standard real analysis in the same exact way. What we want to achieve instead is a different and more intuitive derivation of real analysis results, under the lenses of infinitesimals and unlimited numbers. 
+
+\axm{There exists a natural number $\Omega$ that is not successor of any natural number; that is $\Omega \neq 0$ and $\suc{n} \neq \Omega$ $\fa$ $n \in \Ns$}. We call $\Omega$ a non-standard natural number. 
+\newline
+
+\textcolor{red}{The only "issue" with this new axiom is that it contradicts in a way mathematical induction. One }
+
+Equipped with these axioms we can now derive all the results up until Section 5.1 in \cite{tao2022analysis}, that is the construction of natural numbers, integers, rational numbers, and set theory. What follows is our reinterpretation of real analysis under a non-standard lens.

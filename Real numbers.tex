@@ -1,0 +1,441 @@
+\section{The Real Numbers}
+\subsection{Distance and infinitesimal-closeness}
+\defn{(Distance) Let $x$ and $y$ be rational numbers. The quantity $|x-y|$ is called the \textit{distance between $x$ and $y$} and is sometimes denoted $d(x,y)$, thus $d(x,y)\coloneqq |x-y|$}.
+\newline
+
+\noin Now it would make sense to define $\varepsilon$-closeness by letting $\varepsilon$ be any rational greater than $0$ and saying that a rational number $x$ is $\varepsilon$-$close$ to another rational $y$ iff $d(y,x)\leq \varepsilon$. However, we will make use of $\Omega$ and introduce the notion of infinite/infinitesimal-closeness, that is equivalent to $\varepsilon$-closeness in standard real analysis.
+\defn{(Infinitesimal-closeness). Let $x, y$ $\in$ $\mathbb{Z}$. 
+\newline $y$ is infinitesimally-close to $x$ iff $d(x,y) \leq \frac{1}{\Omega} \cdot a$, for $a \in$ $\mathbb{Q}^{+}$, $a \neq \Omega$.
+\newline We introduce the notation $\simeq$ to represent infinitesimal-closeness. So we have that $y \simeq x \iff d(x,y) \leq \frac{1}{\Omega} \cdot a$, for $a \in$ $\mathbb{Q}^{+}$, $a \neq \Omega$}. 
+\newline We can define $\varepsilon \coloneqq \frac{1}{\Omega}$, so $y \simeq x \iff d(x,y) \leq \varepsilon \cdot a$, for $a \in$ $\mathbb{Q}^{+}$, $a \neq \Omega$.
+
+\subsection{Cauchy Sequences}
+In the following definitions we still make use of $\varepsilon$ but the reminder is that $\varepsilon$ is defined to be $\frac{1}{\Omega}$, as to convey the notion of infinitesimal closeness. What you might notice as missing from these definitions is the standard beginning where we say 'Let $\varepsilon > 0$ ...'. This part is indeed not needed anymore since $\varepsilon$ has now a precise infinitesimally small value. 
+\defn{($\varepsilon$-steadiness). A sequence $\seq{a}$ is $\varepsilon$-steady iff each pair $a_i, a_j$ is infinitesimally-close for every $i, j \in \Ns$. In other words,
+\begin{align*}
+\seq{a} \text{ is } \varepsilon\text{-steady} &\iff a_i \simeq a_j  \\
+&\iff d(a_i, a_j) \leq \varepsilon \cdot a  \\
+\end{align*}
+$\fa \text{ } i, j \in \Ns$.}
+
+\defn{(Eventual $\varepsilon$-steadiness). A sequence $\seq{a}$ is $eventually$ $\varepsilon$-steady iff there exists an $N \geq 0$ such that $\seq{a}_{n=N}$ is $\varepsilon$-steady. In other words, 
+\begin{align*}
+\seq{a} \text{ is eventually } \varepsilon\text{-steady} &\iff \tex N \geq 0 \text{ such that } a_i \simeq a_j \fa \text{ } i, j \geq N \\
+&\iff \tex N \geq 0 \text{ such that } d(a_i, a_j) \leq \varepsilon \cdot a \fa \text{ } i, j \geq N \\
+\end{align*}
+}
+\textcolor{red}{what if we just say: eventually $\varepsilon$-steady iff $d(a_j,a_k)<\varepsilon$ for all $j,k \geq \Omega$??? we would have to specify how to deal with these kind of things, taking indices greater than $\Omega$ etc}
+
+
+\medskip
+
+An important clarification is that in the above definition $N$ is a standard natural number.  
+
+\defn{(Cauchy sequences). A sequence $\seq{a}$ of rational numbers is said to be a \textit{Cauchy sequence} iff $\seq{a}$ is eventually $\varepsilon$-steady. In other words, 
+\begin{align*}
+\seq{a} \text{ is a Cauchy sequence} &\iff \tex N \geq 0 \text{ such that } a_i \simeq a_j \fa \text{ } i, j \geq N \\
+&\iff \tex N \geq 0 \text{ such that } d(a_i, a_j) \leq \varepsilon \cdot a \fa \text{ } i, j \geq N \\
+\end{align*}
+
+We prove the first proposition under this new framework. 
+
+\prop{The sequence $a_1, a_2, a_3$ defined by $a_n \coloneqq \frac{1}{n}$ is a Cauchy sequence.}
+\begin{proof}
+    To prove $a_n$ is Cauchy we need to prove it is eventually $\varepsilon$-steady. Let $N > \Omega = \frac{1}{\varepsilon}$. Then we must have, for all $j,k > N > \Omega$
+    \begin{align*}
+        d(a_j,a_k) = |a_j-a_k|=\abs{\frac{1}{j}-\frac{1}{k}}\leq\abs{\frac{1}{j}}+\abs{\frac{1}{k}}< \frac{1}{N}+ \frac{1}{N} = \frac{2}{N}<2\frac{1}{\Omega}=2\cdot \varepsilon
+    \end{align*}
+    and so we have $a_j \simeq a_k$, infinitesimal-closeness. Thus $a_n$ is Cauchy.
+\end{proof}
+\textcolor{red}{This proof would still work}
+
+The verbosity of this proof is to be clear and show all the precise steps and derivation. Without loss of generality and some assumptions, the steps could be trimmed down to at most 4.
+
+\defn{(Bounded sequences). Let $M\geq0$ be rational. A finite sequence $a_1, ..., a_n$ is \textit{bounded by} $M$ iff $\abs{a_i} \leq M$ for all $1\leq i \leq n$. An infinite sequence $\seq{a}$ is \textit{bounded by} $M$ iff $\abs{a_i} \leq M$ for all $i \geq 1$. A sequence is \textit{bounded} iff it is bounded by $M$ for some rational $M \geq 0$.}
+
+\lem{(Finite sequences are bounded). Every finite sequence $a_1, ..., a_n$ is bounded.}\label{lem:finite sequences are bounded}
+\begin{proof}
+    (Simple induction on the first $n$ terms, then pick bound to be $M+\abs{a_{n+1}}$)
+\end{proof}
+
+\lem{(Cauchy sequences are bounded). Every Cauchy sequence $\seq{a}$ is bounded.} \label{lem:Cauchy sequences are bounded}
+\begin{proof}
+    Let $\seq{a}$ be a Cauchy sequence. It follows that $\seq{a}$ is eventually $\varepsilon$-steady. Fix $N \geq 0$. We know that $d(a_j, a_k)\leq \varepsilon \cdot c \fa j,k \geq N$, $c \in \mathbb{Q}^{+}$. So now we can split the sequence $\seq{a}$ in a finite sequence $a_1, ..., a_{N-1}$ and the remaining infinite tail $a_N, a_{N}, ...$, which we can denote $\seq{a}_{n=N}^\infty$. By Lemma \ref{lem:finite sequences are bounded}, the finite sequence $a_1, ..., a_{N-1}$ is bounded, say, by $M$. We also know that $\seq{a}_{n=N}^\infty$ is $\varepsilon$-steady. Thus it is also $1$-steady, meaning $d(a_n, a_N) \leq 1 \fa n \geq N$. We must have, by triangle inequality
+    \begin{equation*}
+        \abs{a_n} = \abs{a_N+a_n-a_N} \leq \abs{a_N} + \abs{a_n-a_N} \leq \abs{a_N} +1
+    \end{equation*}
+    for all $n \geq N$. Thus $\seq{a}_{n=N}^\infty$ is bounded by $\abs{a_N} +1$. We can simply pick $\max(M, \abs{a_N} +1)$ so that both the finite part and infinite tail of $\seq{a}$ are bounded. Thus the sequence $\seq{a}$ is bounded. 
+\end{proof}
+\textcolor{red}{This proof would still work and I'd save some lines by not having to choose N. However, we'd have a problem with the initial finite part of the sequence because the indices would run from 1 to $\Omega$ which brings about the issue of: is this sequence finite, hyperfinite, infinite? Below I show clearly a similar issue.}
+
+\subsection{Equivalent Cauchy sequences}
+\defn{(Infinitely-close sequences). Let $\seq{a}$ and $\seq{b}$ be two sequences. We say that $\seq{a}$ is infinitely-close (or $\varepsilon$-close) to $\seq{b}$ iff $a_n$ is infinitely-close to $b_n$ for each $n\in \Ns$. In other words, 
+\begin{align*}
+    \seq{a} \text{ is infinitely-close to } \seq{b} & \iff d(a_n, b_n) \leq \varepsilon \cdot c = \frac{1}{\Omega} \cdot c \\
+    & \iff a_n \simeq b_n,
+\end{align*}
+for all $n \in \Ns, c \in \mathbb{Q}^+$.
+}
+
+\defn{(Eventually infinitely-close sequences). 
+Let $\seq{a}$ and $\seq{b}$ be two sequences. We say that $\seq{a}$ is eventually infinitely-close (or eventually $\varepsilon$-close) to $\seq{b}$ iff there exists $N\geq 0$ such that $\seq{a}_{n=N}^\infty$ and $\seq{b}_{n=N}^\infty$ infinitely-close. In other words, 
+\begin{align*}
+    \seq{a} \text{ is eventually infinitely-close to } \seq{b} & \iff \tex N\geq 0 \text{ such that } d(a_n, b_n) \leq \varepsilon \cdot c = \frac{1}{\Omega} \cdot c \\
+    & \iff a_n \simeq b_n,
+\end{align*}
+for all $n \geq N, c \in \mathbb{Q}^+$.
+}
+\textcolor{red}{THEN WE CAN APPLY SAME IDEA HERE: GET RID OF $N$ AND JUST LET THE INDICES BE GREATER THAN $\Omega$. the following definition makes use of this simplicity.}.
+
+\defn{(Equivalent sequences). Two sequences $\seq{a}$ and $\seq{b}$ are \textit{equivalent} iff they are eventually infinitely-close. In other words,
+\begin{align*}
+    \seq{a} \text{ and } \seq{b} \text{ are equivalent } & \iff d(a_n, b_n) = \abs{a_n - b_n} \leq \varepsilon \cdot c = \frac{1}{\Omega} \cdot c \\
+    & \iff a_n \simeq b_n
+\end{align*}
+for all $n \geq \Omega, c \in \mathbb{Q}^+$.
+}
+
+\textcolor{red}{the following proposition, in my opinion, highlights the need of clarifying some fundamental (arithmetic, algebraic, ..) aspects about $\Omega$}
+\prop{Let $\seq{a}_{n=1}$ and $\seq{b}_{n=1}$ be the sequences $a_n = 1+10^{-n}$ and $b_n = 1-10^{-n}$. Then the sequences are equivalent.}
+\begin{proof}
+    \begin{equation*}
+        d(a_\Omega,b_\Omega)=\abs{a_\Omega-b_\Omega}=\abs{1+10^{-\Omega} - 1 + 10^{-\Omega}} = \frac{2}{10^\Omega}<\frac{1}{\Omega}\cdot 2
+    \end{equation*}
+    thus $a_n \simeq b_n \fa n\geq \Omega$, so $\seq{a}$ and $\seq{b}$ are equivalent.
+\end{proof}
+
+\prop{Let $\seq{a}$ and $\seq{b}$ be equivalent sequences of rationals. $\seq{a}$ is a Cauchy sequence if and only if $\seq{b}$ is a Cauchy sequence.}
+\begin{proof}
+    By equivalence, we know that $d(a_n, b_n)=\abs{a_n-b_n} \leq \varepsilon \cdot c, \fa n \geq \Omega, c \in \mathbb{Q}^+$. We prove only one direction $(\Rightarrow)$, since the other direction follows trivially. 
+    Let $\seq{a}$ be a Cauchy sequence. This implies that $d(a_j, a_k)=\abs{a_j-a_k} \leq \varepsilon \cdot d, \fa j,k \geq \Omega, d \in \mathbb{Q}^+$.
+    Thus we must have, for $j,k \geq \Omega$
+    \begin{align*}
+        d(b_j, b_k) = \abs{b_j-b_k} &= \abs{b_j-b_k +a_j-a_j +a_k-a_k} \\
+        & \leq \abs{b_j -a_j} + \abs{a_k-b_k} + \abs{a_j-a_k} \\
+        & \leq \varepsilon \cdot c_1 + \varepsilon \cdot c_2 + \varepsilon \cdot d = \varepsilon \cdot p
+    \end{align*}
+    where $p=c_1+c_2+d, p\in \mathbb{Q}^+$. Thus it follows that $\seq{b}$ is also a Cauchy sequence.
+\end{proof}
+
+\prop{If $\seq{a}$ and $\seq{b}$ are eventually infinitely-close, then $\seq{a}$ is bounded if and only if $\seq{b}$ is bounded.}
+\begin{proof}
+    Let $\seq{a}$ and $\seq{b}$ be eventually infinitely-close sequences. We prove only one way of the implication since the other way follows trivially. ($\Rightarrow$) Let $\seq{a}$ be bounded by $M\geq 0$. Then $\abs{a_i} \leq M$ for every $i \in \Ns$. We must have
+    \begin{align*}
+        \abs{b_i} & = \abs{b_i +a_i - a_i} \\
+        & \leq \abs{b_i-a_i} +\abs{a_i} \\
+        & \leq \varepsilon \cdot c + M = \varepsilon + M
+    \end{align*}
+    for all $i \geq \Omega$ and $c=1$ (by definition we can select any value of $c$ (among the positive rationals). Thus we know that the sequence $\seq{b}_{n=\Omega}^\infty$, the infinite tail of the original sequence $\seq{b}$, is bounded. We are left with the finite sequence (\textcolor{red}{is it finite though? it seems to me to be hyperfinite! but we have defined no such concept so far ...}) $a_1, ..., a_{\Omega-1}$. By lemma \ref{lem:finite sequences are bounded}, finite sequences are bounded, thus also the initial segment is bounded. It must follow that the sequence $\seq{b}$ is also bounded.
+\end{proof}
+\textcolor{red}{Now in this proof I'm encountering the first conceptual obstacle to proving this proposition with the sole use of $\Omega$ proofs (not using $\varepsilon$ or $N$). In standard real analysis this proof would follow the same structure, but it would work without problems because the index where you split the sequence is $N$ (the index after which the elements of both sequences are infinitely close to each other) and it is a simple natural number, and thus the first split of the sequence - the finite part - is actually a very simple finite sequence and the lemma applies straightforwardly. But in our case we have an initial split of a "finite" sequence that goes from index $1$ to index $\Omega$ ... and conceptually I'm not fully convinced we can claim that this sequence is finite ... at least not in the same sense as $a_1, ..., a_N$ is finite!}
+
+\subsection{The construction of the real numbers}
+\defn{(Real numbers). A \textit{real number} is defined to be an object of the form LIM$_{n\rightarrow \infty}a_n$, where $\seq{a}$ is a Cauchy sequence of rational numbers. Two real numbers LIM$_{n\rightarrow \infty}a_n$ and LIM$_{n\rightarrow \infty}b_n$ are said to be equal iff $\seq{a}$ and $\seq{b}$ are equivalent Cauchy sequences. The set of all Real numbers is denoted $\mathbb{R}$.}
+
+\prop{(Formal limits are well-defined). Let $x = \text{LIM}_{n \to \infty} a_n, y = \text{LIM}_{n \to \infty} b_n, z = \text{LIM}_{n \to \infty} c_n$
+be real numbers. Then, with the above definition of equality for real
+numbers, we have \(x = x\). Also, if \(x = y\), then \(y = x\).
+Finally, if \(x = y\) and \(y = z\), then \(x = z\).}
+\begin{proof}
+    First two statements follow trivially. Third statement follows by triangle inequality. 
+\end{proof}
+
+\defn{(Addition of reals). Let $x = \text{LIM}_{n \to \infty} a_n$ and $y = \text{LIM}_{n \to \infty}b_n$ be real numbers. Then we define the sum $x+y$ to be $x+y \coloneqq \text{LIM}_{n \to \infty} (a_n+b_n)$.}
+
+To check this definition is valid we need to confirm the sum of two real numbers is in fact a real number:
+
+\lem{(Sum of Cauchy sequences is Cauchy). Let $x = \text{LIM}_{n \to \infty} a_n$ and $y = \text{LIM}_{n \to \infty}b_n$ be real numbers. Then $x+y$ is a real number (i.e., $\{a_n+b_n\}_{n=1}^{\infty}$ is a Cauchy sequence of rationals).}
+\begin{proof}
+    We need to show that $\{a_n+b_n\}_{n=1}^{\infty}$ is eventually $\varepsilon$-steady. We know that both $\seq{a}$ and $\seq{b}$ are Cauchy sequences, and thus eventually $\varepsilon$-steady.
+    \begin{align*}
+        d(a_i+b_i, a_j+b_j)&=\abs{a_i+b_i - a_j -b_j} \\
+        & \leq \abs{a_i-a_j} + \abs{b_i - b_j} \\
+        & \leq \varepsilon \cdot c_1 + \varepsilon \cdot c_2 = \varepsilon \cdot d
+    \end{align*}
+    for all $i,j \geq \Omega, d=c_1+c_2 \in \mathbb{Q}^+$. So $\{a_n+b_n\}_{n=1}^{\infty}$ is eventually $\varepsilon$-steady, and thus it is Cauchy.
+\end{proof}
+\textcolor{red}{steps and words saved in this proof is quite a lot!}
+
+\lem{(Sums of equivalent Cauchy sequences are equivalent). Let $x = \text{LIM}_{n \to \infty} a_n$, $y = \text{LIM}_{n \to \infty}b_n$ and $x' = \text{LIM}_{n \to \infty} a'_n$ be real numbers. Suppose that $x=x'$. Then we have $x+y=x'+y$.}
+\begin{proof}
+    Since $x=x'$, we know $\seq{a}$ and $\seq{a'}$ are equivalent Cauchy sequences, so eventually infinitely-close. We need to show that $\{a_n+b_n\}_{n=1}^{\infty}$ is equivalent to $\{a'_n+b_n\}_{n=1}^{\infty}$, so eventually infinitely-close. 
+    \begin{equation*}
+        d(a_n+b_n, a'_n+b_n)= \abs{a_n+b_n - a'_n-b_n} = \abs{a_n - a'_n} \leq \varepsilon \cdot c
+    \end{equation*}
+    for all $n \geq \Omega, c \in \mathbb{Q}^+$. Thus $\{a_n+b_n\}_{n=1}^{\infty}$ is equivalent to $\{a'_n+b_n\}_{n=1}^{\infty}$, so $x+y=x'+y$.
+\end{proof}
+
+\defn{(Multiplication of reals). Let $x = \text{LIM}_{n \to \infty} a_n$ and $y = \text{LIM}_{n \to \infty}b_n$ be real numbers. Then we define the product $xy$ to be $xy \coloneqq \text{LIM}_{n \to \infty}a_nb_n$.}
+
+\prop{(Multiplication is well defined). Let $x = \text{LIM}_{n \to \infty} a_n$, $y = \text{LIM}_{n \to \infty}b_n$ and $x' = \text{LIM}_{n \to \infty} a'_n$ be real numbers. Then $xy$ is also a real number. Furthermore, if $x=x'$, then $xy=x'y$.}
+\begin{proof}
+    To prove $xy$ is also a real number we need to prove that $\{a_nb_n\}_{n=1}^{\infty}$ is a Cauchy sequence. 
+    \begin{align*}
+        d(a_jb_j, a_kb_k)= \abs{a_jb_j-a_kb_k}& = \abs{a_jb_j-a_kb_k+a_jb_k-a_jb_k} \\
+        & =\abs{a_j(b_j-b_k)-b_k(a_k-a_j)} \\
+        & \leq \abs{a_j(b_j-b_k)}+\abs{b_k(a_k-a_j)} \\
+        & = \abs{a_j}\abs{b_j-b_k} + \abs{b_k}\abs{a_k-a_j} \\
+        & \leq M_1 \cdot \varepsilon \cdot c_1 + M_2 \cdot \varepsilon \cdot c_2 \\
+        & = M \cdot \varepsilon \cdot c = \varepsilon \cdot d,
+    \end{align*}
+    for all $j,k \geq \Omega$, where $M=M_1+M_2$, $c=c_1+c_2$, $d=M \cdot c$, $d \in \mathbb{Q}^+$. Thus $\{a_nb_n\}_{n=1}^{\infty}$ is a Cauchy sequence and thus $xy$ is also a real number. We also made use of the fact that Cauchy sequences are bounded, by Lemma \ref{lem:Cauchy sequences are bounded}.
+
+    We now prove that if $x=x'$, then $xy=x'y$. Since $x=x'$ we know that $\seq{a}$ and $\seq{a'}$ are equivalent Cauchy sequences. We need to prove that $\{a_nb_n\}_{n=1}^{\infty}$ and $\{a'_nb_n\}_{n=1}^{\infty}$ are equivalent Cauchy sequences. 
+    \begin{align*}
+        d(a_nb_n, a'_nb_n)=\abs{a_nb_n - a'_nb_n} & = \abs{(a_n-a'_n)b_n} \\
+        & = \abs{(a_n-a'_n)} \abs{b_n} \\
+        & \leq  \varepsilon \cdot c \cdot M \\
+        & = \varepsilon \cdot d
+    \end{align*}
+    for all $n \geq \Omega$, where $d=c \cdot M$, $d \in \mathbb{Q}^+$. Thus $\{a_nb_n\}_{n=1}^{\infty}$ and $\{a'_nb_n\}_{n=1}^{\infty}$ are equivalent Cauchy sequences and so $xy=x'y$.
+\end{proof}
+
+We can embed the rationals back into the reals, by equation every rational number $q$ with the real number $\text{LIM}_{n \to \infty} q$.
+This embedding is consistent with our definitions of addition and multiplication, since for any rational numbers $a,b$ we have
+\begin{align*}
+\left(\operatorname{LIM}_{n\to\infty} a\right)
++
+\left(\operatorname{LIM}_{n\to\infty} b\right)
+&=
+\operatorname{LIM}_{n\to\infty}(a+b), \\
+\left(\operatorname{LIM}_{n\to\infty} a\right)
+\times
+\left(\operatorname{LIM}_{n\to\infty} b\right)
+&=
+\operatorname{LIM}_{n\to\infty}(ab).
+\end{align*}
+
+We can now define negation $-x$ for real numbers $x$ by the formula
+\begin{equation*}
+    -x \coloneqq (-1) \times x,
+\end{equation*}
+since $-1$ is a rational number and is hence real. This is consistent with the negation for rational numbers $-q=(-1)\times q$ for all rationals $q$. From this definition is is clear that
+\begin{equation*}
+    - \text{LIM}_{n \to \infty} a_n = \text{LIM}_{n \to \infty} (-a_n).
+\end{equation*}
+Indeed, identifying the rational number $-1$ with the constant real sequence
+$\text{LIM}_{n\to\infty}(-1)$, the definition of multiplication gives
+\begin{align*}
+-\text{LIM}_{n\to\infty}a_n
+&\coloneqq (-1)\times \text{LIM}_{n\to\infty}a_n \\
+&=\left(\text{LIM}_{n\to\infty}(-1)\right)
+  \left(\text{LIM}_{n\to\infty}a_n\right) \\
+&=\text{LIM}_{n\to\infty}\bigl((-1)a_n\bigr) \\
+&=\text{LIM}_{n\to\infty}(-a_n).
+\end{align*}
+Thus, negating a real number represented by $\seq{a}$ amounts to negating
+each term of the representing sequence.
+
+Once we have addition and negation, we can define subtraction by
+\begin{equation*}
+    x-y \coloneqq x+(-y),
+\end{equation*}
+noting that this implies
+\begin{align*}
+\operatorname{LIM}_{n\to\infty} a_n
+-
+\operatorname{LIM}_{n\to\infty} b_n
+&\coloneqq
+\operatorname{LIM}_{n\to\infty} a_n
++
+\left(
+-\operatorname{LIM}_{n\to\infty} b_n
+\right) \\
+&=
+\operatorname{LIM}_{n\to\infty} a_n
++
+\operatorname{LIM}_{n\to\infty}(-b_n) \\
+&=
+\operatorname{LIM}_{n\to\infty}
+\bigl(a_n+(-b_n)\bigr) \\
+&=
+\operatorname{LIM}_{n\to\infty}(a_n-b_n).
+\end{align*}
+
+The following is a definition appearing in Chapter 4.1 The Integers of \cite{tao2022analysis}.
+
+\begin{prop}[Laws of algebra for integers] \label{prop:laws of algebra}
+Let \(x,y,z\) be integers. Then we have
+\[
+\begin{gathered}
+x+y=y+x,\\[1.5ex]
+(x+y)+z=x+(y+z),\\[1.5ex]
+x+0=0+x=x,\\[1.5ex]
+x+(-x)=(-x)+x=0,\\[3ex]
+xy=yx,\\[1.5ex]
+(xy)z=x(yz),\\[1.5ex]
+x1=1x=x,\\[1.5ex]
+x(y+z)=xy+xz,\\[1.5ex]
+(y+z)x=yx+zx.
+\end{gathered}
+\]
+\end{prop}
+
+
+\begin{prop}
+    All the laws of algebra from Proposition \ref{prop:laws of algebra} hold not only for the integers, but also for the reals as well. 
+\end{prop}
+\begin{proof}
+    Manipulate the above definitions and the results should follow. See Proposition 5.3.11 in \cite{tao2022analysis}.
+\end{proof}
+
+\begin{rem}[Why reciprocation requires care]
+Suppose that a real number is represented by a Cauchy sequence
+$(a_n)_{n=1}^{\infty}$, so that
+\[
+x=\operatorname{LIM}_{n\to\infty}a_n.
+\]
+A natural first attempt is to define its reciprocal term by term:
+\[
+x^{-1}
+\coloneqq
+\operatorname{LIM}_{n\to\infty}a_n^{-1}.
+\]
+However, this definition does not always make sense.
+
+For example, the Cauchy sequence
+\[
+0.1,\;0.01,\;0.001,\;0.0001,\ldots
+\]
+represents the real number $0$. Its termwise reciprocal is
+\[
+10,\;100,\;1000,\;10000,\ldots,
+\]
+which is unbounded and therefore is not a Cauchy sequence. This reflects
+the familiar fact that $0$ has no reciprocal.
+
+There is also a more subtle problem. A non-zero real number can be
+represented by a Cauchy sequence containing some zero terms. For
+instance, the sequence
+\[
+0,\;0.9,\;0.99,\;0.999,\ldots
+\]
+represents the real number $1$, but its first term cannot be inverted.
+Thus, even when $x\neq 0$, reciprocation cannot necessarily be applied
+to every term of an arbitrary sequence representing $x$.
+
+The essential idea is that, when $x\neq 0$, one must choose or modify
+the representing Cauchy sequence so that its terms are eventually
+bounded away from zero. Once there exists a positive rational number
+$c$ and an index $N$ such that
+\[
+|a_n|\geq c
+\qquad\text{for all }n\geq N,
+\]
+the reciprocals $a_n^{-1}$ are well-defined on the tail of the sequence
+and can be used to define the real number $x^{-1}$.
+\end{rem}
+
+The following definition would make use of '...iff there exists a rational number $c>o$ such that $\abs{a_n} \geq c$ for all $n\geq 1$.' We instead make use of $\varepsilon=\frac{1}{\Omega}$.
+
+\defn{(Sequences bounded away from zero). A sequence $\seq{a}$ of rational numbers is \textit{bounded away from zero} iff $\abs{a_n} \geq \varepsilon$ for all $n\geq 1$.}
+
+\eg{With the standard definition we know that the sequence $0.1,0.01,0.001,...$ is not bounded away from zero, and neither is $0,0.9,0.99,0.999,0.9999,...$. \textcolor{red}{What I wonder is if, according also to our definition, is $0.1,0.01,0.001,...$ not bounded away from zero? What I truly believe is the power of non-standard analysis, as illustrated in my thesis, is the ability to consider a sequence like $0.1,0.01,0.001,...$ NOT equal to the real number $0$. In the approach of Goldblatt, such sequence $0.1,0.01,0.001,...$ is indeed NOT the real/hyperreal number zero (because of the ultrafilter construction). Moreover, I believe that according to our Axiom 6 and the above definition, we also have to imply that $0.1,0.01,0.001,...$ is NOT equal to $0$. The sequence $0.1,0.01,0.001,...$ is $a_n = \frac{1}{10^n}$. For a sequence like $\{\frac{1}{n}\}_{n=1}^\infty$ I would roughly argue that the sequence, by stepwise successor of $n$, $\suc{n}$ would never reach $\Omega$, as per our sixth Axiom. Thus also $\frac{1}{n}$ would never reach and cross beyond the infinitesimal $\frac{1}{\Omega}$, but this is just a rough idea and should be formalised if we want to follow this line of reasoning. PS i just checked again with our definitions, I was wrong: the sequence $\frac{1}{n}$ is equivalent to the sequence $(0,0,0,...)$ because $\abs{\frac{1}{\Omega}-0} = \frac{1}{\Omega} \leq \frac{1}{\Omega} \cdot c$ for $c \geq 1$. But then I wonder how can we set up this framework so that a sequence like $\frac{1}{n}$ and $(0,0,0,...)$ are not equal to each other, making use of the sixth axiom as we did?}}.
+
+\lem{Let $x$ be a non-zero real number. Then $x=\operatorname{LIM}_{n\to\infty}a_n$ for some Cauchy sequence $\seq{a}$ which is bounded away from zero.} \label{lem:2}
+\begin{proof}
+    Since $x$ is real, we know that $x=\operatorname{LIM}_{n\to\infty}b_n$ for some Cauchy sequence $\seq{b}$. But we do not know that $b_n$ is bounded away from zero. We are given that $x \neq 0 = \operatorname{LIM}_{n\to\infty}0$, which means the sequence $\seq{b}_{n=1}^\infty$ is \textbf{not} equivalent to $\{0\}_{n=1}^\infty$. Thus the two sequences cannot be eventually infinitely-close. 
+    
+    We know that $\seq{b}$ is Cauchy, so it must be eventually $\varepsilon$-steady. So $d(b_j, b_k) = \abs{b_j - b_k} \leq c \cdot \varepsilon$ for all $j,k \geq \Omega$.
+
+    On the other hand, we cannot have $\abs{b_n} \leq c \cdot \varepsilon$ for all $n \geq \Omega$, since this would imply that $\seq{b}$ is eventually infinitely-close to $\{0\}_{n=1}^\infty$. Thus there must be some $n_0 \geq \Omega$ for which $\abs{b_{n_0}} > c_1 \cdot \varepsilon$. Since we already know that $\abs{b_{n_0}-b_n} \leq c_2 \cdot \varepsilon$ for all $n\geq \Omega$, and without loss of generality we can assume $c_1>c_2$, the triangle inequality gives us
+    \begin{equation*}
+        c_1 \cdot \varepsilon <\abs{b_{n_0}} = \abs{b_{n_0} - b_n + b_n} \leq \abs{b_{n_0} - b_n} + \abs{b_n} \leq c_2 \cdot \varepsilon + \abs{b_n}
+    \end{equation*}
+    which implies that $\abs{b_n} \geq c \cdot \varepsilon$, where $c_1 - c_2 = c \in \mathbb{Q}^+$, for all $n\geq \Omega$.
+
+    This proves that $\seq{b}$ is eventually bounded away from zero. But this is easily fixed, by defining a new sequence $a_n$, by setting
+    \begin{equation*}
+a_n \coloneqq
+\begin{cases}
+c \cdot \varepsilon & \text{if } n < \Omega \\
+b_n & \text{if } n > \Omega.
+\end{cases}
+    \end{equation*}
+    $\seq{a}$ is also a Cauchy sequence and it is equivalent to $\seq{b}$, since the two sequences are eventually the same. So $x=\operatorname{LIM}_{n\to\infty}a_n$ and $\abs{a_n} \geq c \cdot \varepsilon$ for all $n \geq 1$. Thus we have a Cauchy sequence which is bounded away from zero and which has $x$ as a formal limit.
+\end{proof}
+
+\lem{
+    Suppose that $(a_n)_{n=1}^{\infty}$ is a Cauchy sequence which is bounded away from zero. Then the sequence $(a_n^{-1})_{n=1}^{\infty}$ is also a Cauchy sequence.
+} \label{lem:3}
+\begin{proof}
+    Since  $(a_n)_{n=1}^{\infty}$ is bounded away from zero, we know that $\abs{a_n} \geq c \cdot \varepsilon$ for all $n \geq 1$. We need to show that $(a_n^{-1})_{n=1}^{\infty}$ is eventually $\varepsilon$-steady. We know that, for all $n,m \geq \Omega$
+    \begin{align*}
+        \abs{\frac{1}{a_n} - \frac{1}{a_m}} & \leq \abs{\frac{1}{a_n}} + \abs{\frac{1}{a_m}} + \abs{a_n-a_m} \\
+        & \leq \frac{2}{c \cdot \varepsilon} + c \cdot \varepsilon \\
+        & = \frac{2+c^2 \cdot \varepsilon^2}{c \cdot \varepsilon} \\
+        & \leq \frac{2 \textcolor{red}{\cdot \varepsilon^2}+c^2 \cdot \varepsilon^2}{c \cdot \varepsilon} \\
+        & \leq \frac{(2+c^2) \cdot \varepsilon^2}{c \cdot \varepsilon} \\
+        & = d \cdot \varepsilon
+    \end{align*}
+    where $\frac{2+c^2}{d}=d \in \mathbb{Q}^+$, since $\abs{a_m}, \abs{a_n} \geq c \cdot \varepsilon$, since $\abs{a_n-a_m} \leq c \cdot \varepsilon$. 
+\end{proof}
+\textcolor{red}{im struggling to prove this lemma ... i've tried over and over and I seem to be circling around the fact that there always remains $\varepsilon$ at the denominator which make the bound be approximately $\Omega$. Highlighted in red is an error i made, when i got closest to proving it ... i thought i could just multiply and make the bound bigger so things would cancel out but multiplying by $\varepsilon^2$ doesn't make things bigger but smaller ...}
+
+\textcolor{red}{  ... it's been two days and I can't get around it ......}
+
+\textcolor{red}{Bernd i need your help ... am I just missing the way to prove it or are we hitting a fundamental wall in proving something because of our axioms and definitions?}
+
+\textcolor{red}{21/07 - this seems to me a genuine failure of this framework}
+
+\textcolor{red}{"SOLUTION": this lemma can be repaired if we adopt standard definition ... a sequence is bounded away from zero if there exists positive rational $c$ such that $\abs{a_n}\geq c$ for every $n$.}
+
+\defn{(Reciprocals of real numbers). Let $x$ be a non-zero real number. Let $\seq{a}$ be a Cauchy sequence bounded away from zero such that $x=\operatorname{LIM}_{n\to\infty}a_n$ (such a sequence exists by Lemma \ref{lem:2}). Then we define the reciprocal $x^{-1}$ by the formula $x^{-1}\coloneqq \operatorname{LIM}_{n\to\infty}a^{-1}_n$. (From Lemma \ref{lem:3} we know that $x^{-1}$ is a real number.)}
+
+\begin{lem}[Reciprocation is well defined]
+\label{lem:reciprocation-well-defined}
+Let $(a_n)_{n=1}^{\infty}$ and $(b_n)_{n=1}^{\infty}$ be two Cauchy sequences bounded away from zero such that $\mathrm{LIM}_{n\to\infty} a_n = \mathrm{LIM}_{n\to\infty} b_n$ (i.e., the two sequences are equivalent). Then $\mathrm{LIM}_{n\to\infty} a_n^{-1} = \mathrm{LIM}_{n\to\infty} b_n^{-1}$.
+\end{lem}
+
+\begin{proof}
+Consider the following product $P$ of three real numbers:
+\[
+P := \left(\mathrm{LIM}_{n\to\infty} a_n^{-1}\right) \times \left(\mathrm{LIM}_{n\to\infty} a_n\right) \times \left(\mathrm{LIM}_{n\to\infty} b_n^{-1}\right).
+\]
+If we multiply this out, we obtain
+\[
+P = \mathrm{LIM}_{n\to\infty} a_n^{-1} a_n b_n^{-1} = \mathrm{LIM}_{n\to\infty} b_n^{-1}.
+\]
+On the other hand, since $\mathrm{LIM}_{n\to\infty} a_n = \mathrm{LIM}_{n\to\infty} b_n$, we can write $P$ in another way as
+\[
+P = \left(\mathrm{LIM}_{n\to\infty} a_n^{-1}\right) \times \left(\mathrm{LIM}_{n\to\infty} b_n\right) \times \left(\mathrm{LIM}_{n\to\infty} b_n^{-1}\right).
+\]
+Multiplying things out again, we get
+\[
+P = \mathrm{LIM}_{n\to\infty} a_n^{-1} b_n b_n^{-1} = \mathrm{LIM}_{n\to\infty} a_n^{-1}.
+\]
+Comparing our different formulae for $P$ we see that $\mathrm{LIM}_{n\to\infty} a_n^{-1} = \mathrm{LIM}_{n\to\infty} b_n^{-1}$, as desired.
+\end{proof}
+
+We can now define division $x/y$ of two real numbers $x,y$, provided $y$ is non-zero, by the formula
+\begin{equation*}
+    x/y \coloneqq x \times y^{-1}.
+\end{equation*}
+
+\prop{Let $a,b$ be rational numbers. Show that $a=b$ if and only if $\mathrm{LIM}_{n\to\infty} a = \mathrm{LIM}_{n\to\infty} b$ (i.e., the Cauchy sequences $a,a,a...$ and $b,b,b,...$ are equivalent if and only if $a=b$).}
+\begin{proof}
+    Suppose $a=b$. It must follow that $(a,a,a,...)=(b,b,b,...)$. It follows that the two sequences are equivalent and thus $\mathrm{LIM}_{n\to\infty} a = \mathrm{LIM}_{n\to\infty} b$. 
+
+    \noin Now suppose that $\mathrm{LIM}_{n\to\infty} a = \mathrm{LIM}_{n\to\infty} b$, meaning $(a,a,a,...)$ and $(b,b,b,...)$ are equivalent. By equivalence, 
+    \begin{equation*}
+        d(a_n,b_n)=\abs{a_n-b_n}=\abs{a-b} \leq \varepsilon \cdot c
+    \end{equation*}
+    for all $n \geq \Omega$, $c\in \mathbb{Q}^+$. But this result must also hold for all $n \in \Ns$. So we have $\abs{a-b} \leq \varepsilon \cdot c$ .... \textcolor{red}{this proposition is a bit tricky, it can be proved if we restrict to rationals and not hyperrationals, but it highlights also some doubts i have about this framework ... we want two real numbers to be equal when their corresponding cauchy sequences are eventually infinitesimaly-close ... but then, if we allow hyperrationals to be included, in this proposition, take the numbers $2$ and $2+\varepsilon$. then this proposition is false, because the two numbers are different (infinitesimally-close but not equal) but their cauchy sequences are equivalent, and thus the two corresponding real numbers are the same. I don't know im confused}
+\end{proof}
+
+
+\prop{Let $(a_n)_{n=0}^{\infty}$ be a sequence of rational numbers which is bounded. Let $(b_n)_{n=0}^{\infty}$ be another sequence of rational numbers which is equivalent to $(a_n)_{n=0}^{\infty}$. Show that $(b_n)_{n=0}^{\infty}$ is also bounded.}
+\begin{proof}
+    From equivalence of the two sequences and from $\seq{a}$ being bounded, say by $M \geq 0$, we have
+    \begin{equation*}
+        \abs{b_n} = \abs{b_n - a_n + a_n} \leq \abs{b_n - a_n} + \abs{a_n} \leq \varepsilon \cdot c + M
+    \end{equation*}
+    for all $n \geq \Omega$, $c \in \mathbb{Q}^+$. So we know that the infinite tail of the sequence, $a_\Omega, a_{\Omega+1},...$, is bounded. We need to prove that the hyperfinite initial part of the sequence $a_0, a_1,...,a_{\Omega-1}$ is also bounded. \textcolor{red}{here i believe we should make use of the transfer principle and say that hyperfinite sequences are also bounded, and thus $a_0, a_1,...,a_{\Omega-1}$ is also bounded. how would the transfer work for Lemma \ref{lem:finite sequences are bounded}?}
+\end{proof}
+
+\subsection{Ordering the reals}
+\textcolor{red}{before moving on to the next chapter I would like to make some clarity on some topics, like filters, hyperreal numbers and such}
+
+
+
+

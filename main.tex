@@ -1,0 +1,91 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{mathtools}
+\usepackage{xcolor}
+\usepackage{amssymb, graphicx, amsmath, amsthm}
+\usepackage{hyperref}
+\usepackage{leftindex}
+\usepackage{stmaryrd}
+\theoremstyle{definition}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{defn}{Definition}[section]
+\newtheorem{cor}{Corollary}[thm]
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{rem}{Remark}[section]
+\newtheorem{ill}{Illustration}[thm]
+\newtheorem{eg}{Example}[section]
+\newtheorem{ex}{Exercise}[section]
+\newtheorem{axm}{Axiom}
+\newtheorem{id}{Identities}[section]
+\newtheorem{noti}{Notion}[section]
+\newtheorem{example}{Example}[section]
+\newcommand{\str}[1]{\ensuremath{\leftindex^* {#1}} }
+\newcommand{\sigalg}{\ensuremath{\mathcal{A}} }
+\newcommand{\Ns}{\ensuremath{\mathbb{N}} }
+\newcommand{\Rs}{\ensuremath{\mathbb{R}} }
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\C}{\ensuremath{\mathbb{C}} }
+\newcommand{\Nns}{\ensuremath{\leftindex^* {\mathbb{N}}} }
+\newcommand{\Rns}{\ensuremath{\leftindex^* {\mathbb{R}}} }
+\newcommand{\abs}[1]{\ensuremath{\left\lvert #1 \right\rvert}}
+\newcommand{\noin}{\noindent}
+\newcommand{\am}{\ensuremath{a} }
+\newcommand{\monad}[1]{\ensuremath{\mu(#1)} }
+\newcommand{\seq}[1]{\ensuremath{\{#1_n\}} }
+\newcommand{\seqq}{\ensuremath{\{s_{nm}\}} }
+\newcommand{\limm}[1]{\ensuremath{\lim_{n\to\\#1}s_n} }
+\newcommand{\tex}{\ensuremath{\exists\,} }
+\newcommand{\oper}{\ensuremath{*} }
+\newcommand{\G}{\ensuremath{G} }
+\newcommand{\fa}{\ensuremath{\;\forall\,} }
+\newcommand{\ind}{\ensuremath{\mathds{1}}}
+\newcommand{\barr}[1]{\ensuremath{\overline{#1}} }
+\newcommand{\limmm}[1]{\ensuremath{\lim_{n\to\infty} #1} }
+\newcommand{\xinv}{x^{-1}}
+\usepackage{dcolumn}
+\newcolumntype{d}[1]{D{.}{.}{#1}}
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+\newcommand{\ldb}{\ensuremath{\llbracket}}
+\newcommand{\rdb}{\ensuremath{\rrbracket}}
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathbin]{\bigcup}{\cdot}}
+\newcommand{\pp}{\mathord{+\!\!+}}
+\newcommand{\suc}[1]{#1\pp}
+\newcommand{\call}[1]{\ensuremath{\mathcal{#1}}}
+\usepackage[margin=3cm]{geometry}
+\usepackage{natbib}
+
+\title{Non-Standard Analysis}
+\author{Francesco Cavina, Bernd Heidergott}
+\date{July 2026}
+
+\begin{document}
+
+\maketitle
+
+\input{Introduction}
+
+\input{Large Sets}
+
+\input{Ultrapower Construction of the Hyperreals}
+
+\input{Axioms}
+
+\input{Real numbers}
+
+\bibliographystyle{chicago}
+\bibliography{bib/bibfile}
+
+\end{document}

@@ -1,0 +1,879 @@
+\section{Ultrapower Construction of the Hyperreals}
+
+We are now ready to begin the construction of the hyperreal numbers. The
+central idea is to regard real-valued sequences as preliminary
+representatives of hyperreal numbers. In the following sections, an
+ultrafilter will provide a criterion of largeness that determines when two
+such sequences should be regarded as equivalent.
+
+\subsection{The Ring of Real-Valued Sequences}
+
+Let $\mathbb{N}=\{1,2,\ldots\}$,
+and let \(\mathbb{R}^{\mathbb{N}}\) denote the set of all sequences of real
+numbers. Thus, an element of \(\mathbb{R}^{\mathbb{N}}\) is a function from
+\(\mathbb{N}\) to \(\mathbb{R}\), written as a sequence
+\[
+r=\langle r_1,r_2,r_3,\ldots\rangle.
+\]
+We may also write this sequence as \(\langle r_n:n\in\mathbb{N}\rangle\), or
+more briefly as \(\langle r_n\rangle\).
+
+We define addition and multiplication of sequences coordinatewise. For
+\(r=\langle r_n\rangle\) and \(s=\langle s_n\rangle\), let
+\[
+r\oplus s=\langle r_n+s_n:n\in\mathbb{N}\rangle,
+\]
+and
+\[
+r\odot s=\langle r_ns_n:n\in\mathbb{N}\rangle.
+\]
+That is, the \(n\)-th term of \(r\oplus s\) is \(r_n+s_n\), while the
+\(n\)-th term of \(r\odot s\) is \(r_ns_n\). For example,
+\[
+\langle 1,2,3,\ldots\rangle
+\oplus
+\langle 4,5,6,\ldots\rangle
+=
+\langle 5,7,9,\ldots\rangle,
+\]
+whereas
+\[
+\langle 1,2,3,\ldots\rangle
+\odot
+\langle 4,5,6,\ldots\rangle
+=
+\langle 4,10,18,\ldots\rangle.
+\]
+
+The structure
+\[
+(\mathbb{R}^{\mathbb{N}},\oplus,\odot)
+\]
+is a \emph{commutative ring with unity}. In general, a commutative ring with
+unity is a set equipped with addition and multiplication satisfying the
+following properties:
+
+\begin{enumerate}
+    \item Addition is associative and commutative:
+    \[
+    (a+b)+c=a+(b+c),
+    \qquad
+    a+b=b+a.
+    \]
+
+    \item There is an additive identity \(0\) such that
+    \[
+    a+0=a.
+    \]
+
+    \item Every element \(a\) has an additive inverse \(-a\) such that
+    \[
+    a+(-a)=0.
+    \]
+
+    \item Multiplication is associative and commutative:
+    \[
+    (ab)c=a(bc),
+    \qquad
+    ab=ba.
+    \]
+
+    \item There is a multiplicative identity \(1\), also called the
+    \emph{unity}, such that
+    \[
+    a\cdot 1=a.
+    \]
+
+    \item Multiplication distributes over addition:
+    \[
+    a(b+c)=ab+ac.
+    \]
+\end{enumerate}
+
+For \(\mathbb{R}^{\mathbb{N}}\), all of these laws hold because they hold in
+\(\mathbb{R}\) at each coordinate. For instance, if
+\(r=\langle r_n\rangle\), \(s=\langle s_n\rangle\), and
+\(t=\langle t_n\rangle\), then
+\[
+(r\odot s)\odot t
+=
+\langle (r_ns_n)t_n\rangle
+=
+\langle r_n(s_nt_n)\rangle
+=
+r\odot(s\odot t),
+\]
+since real multiplication is associative. Similarly,
+\[
+r\odot(s\oplus t)
+=
+\langle r_n(s_n+t_n)\rangle
+=
+\langle r_ns_n+r_nt_n\rangle
+=
+(r\odot s)\oplus(r\odot t),
+\]
+by distributivity in \(\mathbb{R}\).
+
+The additive identity in this ring is the constant zero sequence
+\[
+\mathbf{0}=\langle 0,0,0,\ldots\rangle,
+\]
+since
+\[
+r\oplus\mathbf{0}
+=
+\langle r_n+0\rangle
+=
+\langle r_n\rangle
+=
+r.
+\]
+The multiplicative identity is the constant one sequence
+\[
+\mathbf{1}=\langle 1,1,1,\ldots\rangle,
+\]
+since
+\[
+r\odot\mathbf{1}
+=
+\langle r_n\cdot 1\rangle
+=
+\langle r_n\rangle
+=
+r.
+\]
+Moreover, the additive inverse of
+\(r=\langle r_n\rangle\) is obtained coordinatewise:
+\[
+-r=\langle-r_n:n\in\mathbb{N}\rangle.
+\]
+Indeed,
+\[
+r\oplus(-r)
+=
+\langle r_n+(-r_n)\rangle
+=
+\langle 0,0,0,\ldots\rangle
+=
+\mathbf{0}.
+\]
+
+A \emph{field} is a commutative ring with unity in which every nonzero
+element has a multiplicative inverse. More precisely, if \(F\) is a field
+and \(a\in F\) satisfies \(a\neq 0\), then there exists some
+\(a^{-1}\in F\) such that
+\[
+a\cdot a^{-1}=1.
+\]
+For example, \(\mathbb{R}\) is a field: whenever \(x\in\mathbb{R}\) is
+nonzero, its inverse is \(x^{-1}=1/x\).
+
+Although \(\mathbb{R}^{\mathbb{N}}\) is a commutative ring with unity, it is
+not a field. Consider the two sequences
+\[
+a=\langle 1,0,1,0,1,\ldots\rangle
+\]
+and
+\[
+b=\langle 0,1,0,1,0,\ldots\rangle.
+\]
+Both \(a\) and \(b\) are nonzero sequences, since neither is equal to
+\(\mathbf{0}\). However, their coordinatewise product is
+\[
+a\odot b
+=
+\langle 1\cdot 0,0\cdot 1,1\cdot 0,0\cdot 1,\ldots\rangle
+=
+\langle 0,0,0,0,\ldots\rangle
+=
+\mathbf{0}.
+\]
+Thus, \(a\) and \(b\) are nonzero elements whose product is zero. Such
+elements are called \emph{zero divisors}.
+
+A field cannot contain nonzero zero divisors. For suppose that \(a\neq
+\mathbf{0}\), \(b\neq\mathbf{0}\), and
+\[
+a\odot b=\mathbf{0}.
+\]
+If \(a\) had a multiplicative inverse \(a^{-1}\), then multiplying the
+equation by \(a^{-1}\) would give
+\[
+b
+=
+\mathbf{1}\odot b
+=
+(a^{-1}\odot a)\odot b
+=
+a^{-1}\odot(a\odot b)
+=
+a^{-1}\odot\mathbf{0}
+=
+\mathbf{0},
+\]
+contradicting the assumption that \(b\neq\mathbf{0}\). Hence neither \(a\)
+nor \(b\) can possess a multiplicative inverse.
+
+More generally, any sequence \(r=\langle r_n\rangle\) having at least one
+zero term cannot have a multiplicative inverse in
+\(\mathbb{R}^{\mathbb{N}}\). Indeed, if \(r_k=0\) for some
+\(k\in\mathbb{N}\), then for every sequence \(s=\langle s_n\rangle\),
+\[
+(r\odot s)_k=r_ks_k=0.
+\]
+Therefore \(r\odot s\) can never equal \(\mathbf{1}\), whose \(k\)-th term
+is \(1\). Consequently,
+\[
+(\mathbb{R}^{\mathbb{N}},\oplus,\odot)
+\]
+is a commutative ring with unity, but not a field.
+
+\subsection{Equivalence Modulo an Ultrafilter}
+We'll now employ the full power of the theory of filters we developed in the previous section. By Corollary \ref{cor:nonprincipal-ultrafilter}, let $\call{F}$ be a fixed nonprincipal ultrafilter on the set $\Ns$.
+
+Define a relation $\equiv$ on $\mathbb{R}^\mathbb{N}$ by
+
+$$
+\langle r_n \rangle \equiv \langle s_n \rangle \iff \{ n \in \Ns : r_n = s_n \} \in \call{F}.
+$$
+When this relation holds we say that the two sequences \textit{agree on a large set}, or \textit{agree almost everywhere}.
+
+\subsection{A logical notation}
+Let's denote the agreement set $\{ n \in \Ns : r_n = s_n \}$ by $\ldb r = s \rdb$. So
+$$
+r \equiv s \iff \ldb r=s \rdb \in \call{F}.
+$$
+Think of $\ldb r=s \rdb$ as the measure of the extent to which "$r=s$" is true. So when $\ldb r=s \rdb \in \call{F}$ we say that $r=s$ \textit{almost everywhere}. 
+
+Apply this idea to other logical statements by defining
+\begin{align*}
+    \ldb r < s \rdb & = \{ n \in \Ns : r_n < s_n \} \\
+    \ldb r > s \rdb & = \{ n \in \Ns : r_n > s_n \} \\
+    \ldb r \leq s \rdb & = \{ n \in \Ns : r_n \leq s_n \}.
+\end{align*}
+
+\subsubsection{Exercises}
+
+\prop{$\ldb r=s\rdb \cap \ldb s=t\rdb \subseteq \ldb r=t \rdb$.} \label{prop:transitive property of agreement sets}
+\begin{proof}
+    Let $n \in \ldb r=s\rdb \cap \ldb s=t\rdb$. Then $n \in \{ n \in \Ns : r_n = s_n \}$ and $n \in \{ n \in \Ns : s_n = t_n \}$. For such $n$ we have that $r_n=s_n$ and $s_n = t_n$. Thus $r_n=t_n$ and so $n \in \{ n \in \Ns : r_n = t_n \} = \ldb r=t \rdb$. 
+\end{proof}
+
+\prop{$
+\ldb r=r'\rdb \cap \ldb s=s'\rdb
+\subseteq
+\ldb r\oplus s=r'\oplus s'\rdb
+\cap
+\ldb r\odot s=r'\odot s'\rdb.$
+} \label{prop:ring congruence}
+\begin{proof}
+    Let
+    \[
+    n \in \ldb r=r'\rdb \cap \ldb s=s'\rdb.
+    \]
+    Then \(r_n=r_n'\) and \(s_n=s_n'\). Hence
+    \[
+    (r\oplus s)_n
+    =
+    r_n+s_n
+    =
+    r_n'+s_n'
+    =
+    (r'\oplus s')_n.
+    \]
+    Therefore,
+    \[
+    n \in \ldb r\oplus s=r'\oplus s'\rdb.
+    \]
+    Moreover,
+    \[
+    (r\odot s)_n
+    =
+    r_ns_n
+    =
+    r_n's_n'
+    =
+    (r'\odot s')_n.
+    \]
+    Therefore,
+    \[
+    n \in \ldb r\odot s=r'\odot s'\rdb.
+    \]
+    Thus
+    \[
+    n \in
+    \ldb r\oplus s=r'\oplus s'\rdb
+    \cap
+    \ldb r\odot s=r'\odot s'\rdb.
+    \]
+    Since \(n\) was arbitrary, it follows that
+    \[
+    \ldb r=r'\rdb \cap \ldb s=s'\rdb
+    \subseteq
+    \ldb r\oplus s=r'\oplus s'\rdb
+    \cap
+    \ldb r\odot s=r'\odot s'\rdb.
+    \]
+\end{proof}
+
+
+\prop{
+\[
+\ldb r=r'\rdb
+\cap
+\ldb s=s'\rdb
+\cap
+\ldb r<s\rdb
+\subseteq
+\ldb r'<s'\rdb.
+\]
+}
+\begin{proof}
+    Let
+    \[
+    n \in
+    \ldb r=r'\rdb
+    \cap
+    \ldb s=s'\rdb
+    \cap
+    \ldb r<s\rdb.
+    \]
+    Then \(r_n=r_n'\), \(s_n=s_n'\), and \(r_n<s_n\). Substituting the
+    equal quantities \(r_n'\) and \(s_n'\) for \(r_n\) and \(s_n\),
+    respectively, gives
+    \[
+    r_n' < s_n'.
+    \]
+    Hence
+    \[
+    n \in \ldb r'<s'\rdb.
+    \]
+    Since \(n\) was arbitrary, we conclude that
+    \[
+    \ldb r=r'\rdb
+    \cap
+    \ldb s=s'\rdb
+    \cap
+    \ldb r<s\rdb
+    \subseteq
+    \ldb r'<s'\rdb.
+    \]
+\end{proof}
+
+
+\prop{
+If \(r\equiv r'\) and \(s\equiv s'\), then
+\[
+\ldb r<s\rdb\in\call{F}
+\quad\Longleftrightarrow\quad
+\ldb r'<s'\rdb\in\call{F}.
+\]
+}
+\begin{proof}
+    Assume first that
+    \[
+    \ldb r<s\rdb\in\call{F}.
+    \]
+    Since \(r\equiv r'\) and \(s\equiv s'\), by definition of \(\equiv\),
+    \[
+    \ldb r=r'\rdb\in\call{F}
+    \qquad\text{and}\qquad
+    \ldb s=s'\rdb\in\call{F}.
+    \]
+    As \(\call{F}\) is a filter, it is closed under finite intersections.
+    Therefore,
+    \[
+    \ldb r=r'\rdb
+    \cap
+    \ldb s=s'\rdb
+    \cap
+    \ldb r<s\rdb
+    \in\call{F}.
+    \]
+    By the preceding proposition,
+    \[
+    \ldb r=r'\rdb
+    \cap
+    \ldb s=s'\rdb
+    \cap
+    \ldb r<s\rdb
+    \subseteq
+    \ldb r'<s'\rdb.
+    \]
+    Since \(\call{F}\) is upward closed, it follows that
+    \[
+    \ldb r'<s'\rdb\in\call{F}.
+    \]
+
+    Conversely, assume that
+    \[
+    \ldb r'<s'\rdb\in\call{F}.
+    \]
+    Since equality of real numbers is symmetric,
+    \[
+    \ldb r'=r\rdb=\ldb r=r'\rdb\in\call{F}
+    \]
+    and
+    \[
+    \ldb s'=s\rdb=\ldb s=s'\rdb\in\call{F}.
+    \]
+    Hence
+    \[
+    \ldb r'=r\rdb
+    \cap
+    \ldb s'=s\rdb
+    \cap
+    \ldb r'<s'\rdb
+    \in\call{F}.
+    \]
+    Applying the preceding proposition with \(r'\), \(s'\), \(r\), and
+    \(s\) in place of \(r\), \(s\), \(r'\), and \(s'\), respectively, gives
+    \[
+    \ldb r'=r\rdb
+    \cap
+    \ldb s'=s\rdb
+    \cap
+    \ldb r'<s'\rdb
+    \subseteq
+    \ldb r<s\rdb.
+    \]
+    By upward closure of \(\call{F}\),
+    \[
+    \ldb r<s\rdb\in\call{F}.
+    \]
+    Therefore,
+    \[
+    \ldb r<s\rdb\in\call{F}
+    \quad\Longleftrightarrow\quad
+    \ldb r'<s'\rdb\in\call{F}.
+    \]
+\end{proof}
+
+\prop{$\equiv$ is an equivalence relation on $\mathbb{R}^\mathbb{N}$.} 
+\begin{proof}
+    We need to prove three properties: reflexivity, symmetry, transitivity. 
+
+    \emph{Reflexivity.} Let $\langle r_n \rangle \in \mathbb{R}^\mathbb{N}$. Then we must have that 
+    $$
+    \{ n \in \Ns : r_n = r_n \} = \Ns \in \call{F}
+    $$
+    and thus $\langle r_n \rangle \equiv \langle r_n \rangle$.
+
+    \emph{Symmetry.} Let $\langle r_n \rangle, \langle s_n \rangle \in \mathbb{R}^\mathbb{N}$ and assume $\langle r_n \rangle \equiv \langle s_n \rangle$. Then 
+    $$
+    \{ n \in \Ns : s_n = r_n \} = \{ n \in \Ns : r_n = s_n \} \in \call{F}
+    $$
+    and so $\langle s_n \rangle \equiv \langle r_n \rangle$.
+
+    \emph{Transitivity.} $\langle r_n \rangle, \langle s_n \rangle, \langle p_n \rangle \in \mathbb{R}^\mathbb{N}$ and assume that $\langle r_n \rangle \equiv \langle s_n \rangle$ and $\langle s_n \rangle \equiv \langle p_n \rangle$. We know that
+    $$
+    \ldb r=s\rdb = \{ n \in \Ns : r_n = s_n \} \in \call{F}
+    $$
+    and
+    $$
+    \ldb s=p\rdb = \{ n \in \Ns : s_n = p_n \} \in \call{F}.
+    $$
+    By proposition \ref{prop:transitive property of agreement sets}, we know that $\ldb r=p\rdb \in \call{F}$.
+\end{proof}
+\prop{$\equiv$ is a congruence on the ring \((\mathbb{R}^{\mathbb{N}}, \oplus, \odot)\), which means that if \(r \equiv r'\) and \(s \equiv s'\), then
+\[
+r \oplus s \equiv r' \oplus s'
+\qquad\text{and}\qquad
+r \odot s \equiv r' \odot s'.
+\]}
+\begin{proof}
+        This also follows trivially, just make use of proposition \ref{prop:ring congruence} and of superset axiom and the statement follows. 
+\end{proof}
+
+    
+\prop{$\left(1,\frac{1}{2},\frac{1}{3},\ldots\right) \not\equiv \left(0,0,0,\ldots\right).$}
+\begin{proof}
+    $\ldb \frac{1}{n} = 0 \rdb = \left\{ n \in \Ns : \frac{1}{n} = 0  \right\}=\emptyset \notin \call{F}$ thus the two sequences are not equivalent. 
+\end{proof}
+
+\subsection{The Ultrapower}
+
+The equivalence class of $r \in \R^\Ns$ under $\equiv$ is
+$$
+[r] = \{s \in \R^\Ns : r \equiv s\}.
+$$
+
+\noin The quotient set (set of equivalence classes) of $\R^\Ns$ by $\equiv$ is 
+$$
+\leftindex^* {\R} = \{[r]:r\in \R^\Ns\}.
+$$
+Define
+$$
+[r]+[s] = [\langle r_n + s_n\rangle ],
+$$
+$$
+[r]\cdot[s] = [\langle r_n \cdot s_n\rangle],
+$$
+and
+\begin{equation}
+    [r]<[s] \iff \ldb r<s \rdb \in \mathcal{F} \iff \{n \in \Ns : r_n < s_n \} \in \mathcal{F},
+    \label{eq:2}
+\end{equation}
+\begin{equation*}
+    [r]=[s] \iff \ldb r=s \rdb \in \mathcal{F} \iff \{n \in \Ns : r_n = s_n \} \in \mathcal{F}.
+\end{equation*}
+
+Use the simpler notation $[r_n]$ to denote the equivalence class $[\langle r_n : n \in \mathbb{N} \rangle]$ of the sequence whose nth term is $r_n$. Operations are defined pointwise: 
+$$
+[r_n]+[s_n]=[r_n+s_n]
+$$ 
+and 
+$$
+[r_n][s_n]=[r_n s_n].
+$$
+
+\begin{thm} 
+    The structure $(\leftindex^* {\R}, +, \cdot, <)$ is an ordered field with zero $[\mathbf{0}]$ and unity $[\mathbf{1}]$. 
+\end{thm}
+\begin{proof}
+As a quotient ring of $\mathbb{R}^{\mathbb{N}}$, ${}^{*}\mathbb{R}$ is readily shown to be a commutative ring with zero $[0]$ and unity $[1]$, and additive inverses given by
+\[
+-[\langle r_n : n \in \mathbb{N}\rangle] 
+=
+ [\langle-r_n : n \in \mathbb{N}\rangle],
+\]
+or more briefly,
+\[
+-[r_n]=[-r_n].
+\]
+To show that it has multiplicative inverses, suppose $[r]\neq[0]$. Then $r\not\equiv 0$, i.e.,
+\[
+\{n\in\mathbb{N}:r_n=0\}\notin\mathcal{F},
+\]
+so as $\mathcal{F}$ is an ultrafilter,
+\[
+J=\{n\in\mathbb{N}:r_n\neq 0\}\in\mathcal{F}.
+\]
+Define a sequence $s$ by putting
+\[
+s_n=
+\begin{cases}
+\dfrac{1}{r_n}, & \text{if } n\in J,\\[4pt]
+0, & \text{otherwise}.
+\end{cases}
+\]
+Then $\ldb r\odot s=1 \rdb$ is equal to $J$, so $\ldb r\odot s=1 \rdb \in\mathcal{F}$, giving $r\odot s\equiv 1$ and hence
+\[
+[r]\cdot[s]=[r\odot s]=[1]
+\]
+in ${}^{*}\mathbb{R}$. But this means that $[s]$ is the multiplicative inverse $[r]^{-1}$ of $[r]$.
+
+To see that the ordering $<$ on ${}^{*}\mathbb{R}$ is linear, observe that $\mathbb{N}$ is the disjoint union of the three sets
+\[
+\ldb r<s \rdb,\qquad \ldb r=s\rdb,\qquad \ldb s<r \rdb,
+\]
+so exactly one of the three belongs to $\mathcal{F}$ by Proposition \ref{prop: in union of sets exactly one belongs to F}, and so exactly one of
+\[
+[r]<[s],\qquad [r]=[s],\qquad [s]<[r]
+\]
+is true. It remains to verify that the set of positive elements of ${}^*\mathbb{R}$
+is closed under addition and multiplication. Let $[r],[s]\in{}^*\mathbb{R}$
+be positive. By definition,
+\[
+\llbracket r>0\rrbracket
+=\{n\in\mathbb{N}:r_n>0\}\in\mathcal{F}
+\quad\text{and}\quad
+\llbracket s>0\rrbracket
+=\{n\in\mathbb{N}:s_n>0\}\in\mathcal{F}.
+\]
+Since $\mathcal{F}$ is a filter,
+\[
+\llbracket r>0\rrbracket\cap\llbracket s>0\rrbracket\in\mathcal{F}.
+\]
+
+If $n\in\llbracket r>0\rrbracket\cap\llbracket s>0\rrbracket$,
+then $r_n>0$ and $s_n>0$. Hence $r_n+s_n>0$, and therefore
+\[
+\llbracket r>0\rrbracket\cap\llbracket s>0\rrbracket
+\subseteq
+\llbracket r\oplus s>0\rrbracket.
+\]
+By upward closure of $\mathcal{F}$, it follows that
+\[
+\llbracket r\oplus s>0\rrbracket\in\mathcal{F}.
+\]
+Thus
+\[
+[r]+[s]=[r\oplus s]>[0].
+\]
+
+Likewise, if
+$n\in\llbracket r>0\rrbracket\cap\llbracket s>0\rrbracket$,
+then $r_ns_n>0$. Hence
+\[
+\llbracket r>0\rrbracket\cap\llbracket s>0\rrbracket
+\subseteq
+\llbracket r\odot s>0\rrbracket,
+\]
+so again, by upward closure of $\mathcal{F}$,
+\[
+\llbracket r\odot s>0\rrbracket\in\mathcal{F}.
+\]
+Therefore
+\[
+[r]\cdot[s]=[r\odot s]>[0].
+\]
+
+Consequently, the positive elements of ${}^*\mathbb{R}$ are closed
+under addition and multiplication. Together with the linearity of $<$,
+and the fact that ${}^*\mathbb{R}$ is a field, this shows that
+\[
+\langle{}^*\mathbb{R},+,\cdot,<\rangle
+\]
+is an ordered field with zero $[0]$ and unity $[1]$.
+\end{proof}
+
+This theorem confirms that the ultrapower construction really produces a number system that behaves algebraically like the real numbers. We may therefore calculate and compare hyperreals using the usual field rules, while still allowing genuinely new elements—such as infinitesimals and unlimited numbers—to exist. It thus provides the basic algebraic setting for the transfer principle and all later nonstandard analysis. 
+
+In the preceding proof, we were effectively trying to show that $[r_n]^{-1} = [r_n^{-1}]$. However, the real number $r_n^{-1}$ may fail to exist for some $n$. Nevertheless, it exists for almost all $n$, since
+\[
+\{n \in \mathbb{N} : r_n \neq 0\} \in \mathcal{F}.
+\]
+More generally, the relationship between ${}^\ast\mathbb{R}$ and $\mathbb{R}$ determines the relations and operations in ${}^\ast\mathbb{R}$ through the following almost-all criterion:
+\[
+[r_n] = [s_n]
+\quad\Longleftrightarrow\quad
+r_n = s_n \text{ for almost all } n,
+\]
+\[
+[r_n] < [s_n]
+\quad\Longleftrightarrow\quad
+r_n < s_n \text{ for almost all } n,
+\]
+\[
+[r_n] + [s_n] = [t_n]
+\quad\Longleftrightarrow\quad
+r_n + s_n = t_n \text{ for almost all } n,
+\]
+\[
+[r_n] \cdot [s_n] = [t_n]
+\quad\Longleftrightarrow\quad
+r_n \cdot s_n = t_n \text{ for almost all } n.
+\]
+This criterion also applies to many other properties and forms the basis of the transfer principle.
+
+The ring $\mathbb{R}^{\mathbb{N}}$ is a \emph{direct power} of $\mathbb{R}$, which is a special case of a direct product. An \emph{ultrapower} is a quotient of a direct power by the congruence relation induced by an ultrafilter.
+
+\subsection{Including the Reals in the Hyperreals}
+We identify a real number $r \in \R$ with the constant sequence $\mathbf{r}=\langle r,r,r,... \rangle$ and assign to the the $\leftindex^* {\R}$-element
+$$
+\leftindex^* {r} = [\textbf{r}] = [\langle r,r,r,...\rangle].
+$$
+
+It can be shown that for $r,s \in \mathbb{R}$, we have
+\[
+\begin{aligned}
+{}^*(r+s) &= {}^*r + {}^*s, \\
+{}^*(r \cdot s) &= {}^*r \cdot {}^*s, \\
+{}^*r < {}^*s &\iff r < s, \\
+{}^*r = {}^*s &\iff r = s.
+\end{aligned}
+\]
+
+% \begin{proof}
+% Let $r,s\in\mathbb{R}$. Since $\mathbf r$ and $\mathbf s$ are constant
+% sequences, their pointwise sum is the constant sequence with value $r+s$:
+% \[
+% (\mathbf r\oplus\mathbf s)_n
+% =\mathbf r_n+\mathbf s_n
+% =r+s
+% =\mathbf{(r+s)}_n
+% \qquad\text{for every }n\in\mathbb{N}.
+% \]
+% Hence $\mathbf r\oplus\mathbf s=\mathbf{(r+s)}$, and therefore
+% \[
+% {}^*(r+s)
+% =[\mathbf{(r+s)}]
+% =[\mathbf r\oplus\mathbf s]
+% =[\mathbf r]+[\mathbf s]
+% ={}^*r+{}^*s.
+% \]
+
+% Similarly, the pointwise product of $\mathbf r$ and $\mathbf s$ is the
+% constant sequence with value $rs$, since
+% \[
+% (\mathbf r\odot\mathbf s)_n
+% =\mathbf r_n\mathbf s_n
+% =rs
+% =\mathbf{(rs)}_n
+% \qquad\text{for every }n\in\mathbb{N}.
+% \]
+% Thus
+% \[
+% {}^*(rs)
+% =[\mathbf{(rs)}]
+% =[\mathbf r\odot\mathbf s]
+% =[\mathbf r]\cdot[\mathbf s]
+% ={}^*r\cdot{}^*s.
+% \]
+
+% For the order relation, suppose first that $r<s$. Then
+% \[
+% \llbracket \mathbf r<\mathbf s\rrbracket
+% =\{n\in\mathbb{N}:\mathbf r_n<\mathbf s_n\}
+% =\{n\in\mathbb{N}:r<s\}
+% =\mathbb{N}.
+% \]
+% Since $\mathbb{N}\in\mathcal F$, it follows that
+% \[
+% {}^*r=[\mathbf r]<[\mathbf s]={}^*s.
+% \]
+
+% Conversely, suppose that ${}^*r<{}^*s$. By definition,
+% \[
+% \llbracket \mathbf r<\mathbf s\rrbracket\in\mathcal F.
+% \]
+% But, since $\mathbf r$ and $\mathbf s$ are constant, we have
+% \[
+% \llbracket \mathbf r<\mathbf s\rrbracket
+% =
+% \begin{cases}
+% \mathbb{N}, & \text{if } r<s,\\
+% \emptyset, & \text{if } r\geq s.
+% \end{cases}
+% \]
+% As $\mathcal F$ is proper, $\emptyset\notin\mathcal F$. Therefore the
+% second case is impossible, so $r<s$. Hence
+% \[
+% {}^*r<{}^*s
+% \quad\Longleftrightarrow\quad
+% r<s.
+% \]
+
+% Finally, suppose that $r=s$. Then $\mathbf r=\mathbf s$, and hence
+% \[
+% {}^*r=[\mathbf r]=[\mathbf s]={}^*s.
+% \]
+% Conversely, suppose that ${}^*r={}^*s$. Then
+% \[
+% \llbracket \mathbf r=\mathbf s\rrbracket
+% =\{n\in\mathbb{N}:r=s\}\in\mathcal F.
+% \]
+% This set is equal to $\mathbb{N}$ if $r=s$, and to $\emptyset$ if
+% $r\neq s$. Since $\emptyset\notin\mathcal F$, we must have $r=s$.
+% Therefore
+% \[
+% {}^*r={}^*s
+% \quad\Longleftrightarrow\quad
+% r=s.
+% \]
+% \end{proof}
+
+\textcolor{red}{bernd: how can we prove these things rigorously?}
+
+\thm{The map $\iota:\mathbb{R}\longrightarrow{}^*\mathbb{R},
+r\longmapsto{}^*r=[\langle r,r,\ldots\rangle]$ is an order-preserving field isomorphism from $\mathbb{R}$ into
+${}^*\mathbb{R}$.}
+
+Indeed, the pointwise sum and product of the constant sequences
+$\langle r,r,\ldots\rangle$ and $\langle s,s,\ldots\rangle$ are the
+constant sequences with values $r+s$ and $rs$, respectively. Hence
+\[
+{}^*(r+s)={}^*r+{}^*s
+\qquad\text{and}\qquad
+{}^*(rs)={}^*r\cdot{}^*s.
+\]
+Moreover, if $r<s$, then the inequality between the corresponding constant
+sequences holds at every index:
+\[
+\{n\in\mathbb{N}:r<s\}=\mathbb{N}\in\mathcal{F}.
+\]
+Therefore ${}^*r<{}^*s$. Conversely, suppose that
+${}^*r<{}^*s$. By definition, this means that
+\[
+\{n\in\mathbb{N}:r<s\}\in\mathcal{F}.
+\]
+Since $r$ and $s$ are fixed real numbers, this set is either
+$\mathbb{N}$, if $r<s$, or $\emptyset$, if $r\geq s$: the same comparison
+is repeated at every index of the two constant sequences. Since an
+ultrafilter is proper and hence cannot contain $\emptyset$, the second
+case is impossible. Thus $r<s$. Equality is preserved by the same argument:
+the set $\{n\in\mathbb{N}:r=s\}$ is $\mathbb{N}$ when $r=s$ and is
+$\emptyset$ otherwise.
+
+Thus the embedding does not alter any algebraic or order relation between
+real numbers: operations and comparisons among constant sequences reproduce
+exactly the corresponding operations and comparisons in $\mathbb{R}$.
+Its importance is that it lets us regard $\mathbb{R}$ as a subfield of
+${}^*\mathbb{R}$ and hence write $r$ in place of ${}^*r$, identifying
+$[\textbf{0}]$ with $0$ and $[\textbf{1}]$ with $1$. The hyperreals therefore extend, rather
+than replace, the real numbers: they retain all ordinary real quantities
+while adding new elements, including infinitesimals and unlimited numbers,
+which can be compared and combined with standard reals.
+
+\subsection{Infinitesimals and Unlimited Numbers}
+\defn{Let $\varepsilon=\langle 1,\frac{1}{2}, \frac{1}{3},... \rangle =\left\{\frac{1}{n}: n \in \Ns \right\}$. $[\varepsilon]$ is a positive infinitesimal.}
+
+\prop{We have $[\textbf{0}] < [\varepsilon] < \leftindex^* r$, for $r \in \Rs^+$. Thus $[\varepsilon]$ is greater than zero but smaller than any real number embedded in the hyperreals. }
+
+\begin{proof}
+    We have
+    $$
+    \ldb \textbf{0} < \varepsilon \rdb = \left\{ n \in \Ns : 0 <\frac{1}{n} = \Ns  \right\}\in \call{F}
+    $$
+    and thus $[\textbf{0}] < [\varepsilon]$.
+
+    Now let $r \in \Rs$. We know that
+    $$
+    \ldb \varepsilon <\textbf{r} \rdb = \left\{ n\in \Ns : \frac{1}{n} < r \right\}
+    $$
+    is cofinite. Since $\call{F}$ is nonprincipal it contains all cofinite sets, so $\ldb \varepsilon <\textbf{r} \rdb \in \call{F}$ and thus $[\varepsilon] <[\textbf{r}]=\leftindex^* r$
+\end{proof}
+This is why we define $[\varepsilon]$ as a positive infinitesimal. 
+
+\defn{Let $\Omega = \langle 1,2,3,... \rangle =\left\{ n: n\in \Ns \right\}$}. $[\Omega]$ is an unlimited number.
+
+\prop{Let $r \in \Rs$. We have $\leftindex^* r < [\Omega]$. Thus $[\Omega]$ is greater than any real number embedded in the hyperreals.}
+
+\begin{proof}
+    We know that the set 
+    $$
+    \ldb \textbf{r} < \Omega \rdb = \left\{ n \in \Ns : r < n \right\}
+    $$
+    is cofinite, following the same reasoning as in the preceding proposition. Thus $\ldb \textbf{r} < \Omega \rdb \in \call{F}$ and so $\leftindex^* r <[\Omega]$. $[\Omega]$ is an infinitely large element of $\Rns$.
+\end{proof}
+
+It must also follow that $\varepsilon \cdot \Omega =\textbf{1}$, so $[\Omega]=[\varepsilon]^{-1}$ and $[\varepsilon]=[\Omega]^{-1}$. These new elements of $\Rns$ point to the fact that $\Rns$ is a proper extension of $\Rs$ and thus a new structure. More precisely, let $r \in \Rs$. The set $\ldb \textbf{r} =\Omega \rdb$ is either $\emptyset$ or equal to $\{r\}$ when $r \in \Ns$. Thus it cannot belong to $\call{F}$, implying that $\leftindex^* r \neq [\Omega]$. Hence $[\Omega] \in \Rns \setminus \Rs$.
+
+\subsection{Enlarging Sets}
+A subset $A$ of $\mathbb{R}$ can be ``enlarged'' to a subset ${}^*A$ of ${}^*\mathbb{R}$: for each $r \in \mathbb{R}^{\mathbb{N}}$, put
+\[
+[ r] \in {}^*A \iff \{n \in \mathbb{N} : r_n \in A\} \in \mathcal{F}.
+\]
+
+Thus we are declaring, by the almost-all criterion, that $[r_n]$ is in ${}^*A$ iff $r_n$ is in $A$ for almost all $n$. Again it has to be checked that this is well-defined. Put
+\[
+\ldb r \in A\rdb = \{n \in \mathbb{N} : r_n \in A\}.
+\]
+
+Then
+\[
+\ldb r = r' \rdb \cap [r \in A] \subseteq [r' \in A],
+\]
+so
+\[
+r \equiv r' \ \&\ \ldb r \in A\rdb \in \mathcal{F} \text{ implies } \ldb r' \in A\rdb \in \mathcal{F}.
+\]
+
+So we have
+
+$$
+[ r] \in {}^*A \iff \ldb r \in A\rdb \in \mathcal{F}.
+$$
+
+If $s \in A$, then $\ldb \mathbf{s} \in A\rdb=\Ns \in \mathcal{F}$ so $\str{s} \in \str{A}$. Identifying $s$ with $\str{s}$, we may regard $\str{A}$ as a superset of $A: A \subseteq \str{A}$. Elements of $\str{A} \backslash A$ may be thought of as new \textit{nonstandard} members of $A$ that live in $\Rns$. 
+
+For example, let $A=\Ns$, and $\Omega=\langle 1,2,3,... \rangle$. Then $\ldb \Omega \in \Ns\rdb=\Ns \in \mathcal{F}$, so $[\Omega] \in \Nns$. $[\Omega]$ is a \textit{nonstandard natural number}.
+
+\begin{thm}
+    Let $A \subseteq \Rs$ be an infinite subset of $\Rs$. Then the extended set $\str{A}$ has nonstandard members.
+\end{thm}
+\begin{proof}
+    $\mathcal{F}$ being a nonprincipal ultrafilter is required. If $A \subseteq \R$ is infinite, then there is a sequence $r$ of elements of $A$ whose terms are all distinct. Then $\ldb r \in A \rdb= \Ns \in \mathcal{F}$, so that $[r] \in \str{A}$. But for each $s \in A$, $\ldb r = s\rdb=\{n \in \Ns: r_n = s\}$ is either $\emptyset$ or a singleton, neither of which can belong to $\mathcal{F}$, so $[r] \neq \str{s}$. Hence $[r] \in \str{A} \backslash A$.
+\end{proof}
