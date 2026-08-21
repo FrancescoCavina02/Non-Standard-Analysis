@@ -1,0 +1,125 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import catalog from '../data/generated/concepts.json';
+import explanations from '../data/generated/explanations.json';
+import type { ExplanationDraft } from '../data/types';
+
+const base = import.meta.env.BASE_URL;
+const browseSections = catalog.sections.filter((section, index, sections) => {
+  if (section.level === 2) return true;
+  if (section.level !== 1) return false;
+  const nextTopLevel = sections.findIndex((candidate, candidateIndex) => candidateIndex > index && candidate.level === 1);
+  const boundary = nextTopLevel === -1 ? sections.length : nextTopLevel;
+  return !sections.slice(index + 1, boundary).some((candidate) => candidate.level === 2);
+});
+const browseChapters = browseSections.map((section) => {
+  const sectionIndex = catalog.sections.findIndex((candidate) => candidate.slug === section.slug);
+  const nextBoundary = catalog.sections
+    .slice(sectionIndex + 1)
+    .find((candidate) => candidate.level <= section.level)?.order ?? Number.POSITIVE_INFINITY;
+  const concepts = catalog.concepts.filter((concept) => concept.order > section.order && concept.order < nextBoundary);
+  return { section, concepts };
+});
+const explanationDrafts = explanations.explanations as ExplanationDraft[];
+const drafts = new Map(explanationDrafts.map((draft) => [draft.slug, draft]));
+const sourceDate = catalog.source.syncedAt
+  ? new Intl.DateTimeFormat('en', { dateStyle: 'medium' }).format(new Date(catalog.source.syncedAt))
+  : 'not synchronized';
+---
+
+<SiteLayout>
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">An animated notebook</p>
+      <h1>Make the infinitely small <em>visible.</em></h1>
+      <p class="hero-intro">
+        A guided path from large sets to hyperreals, built from evolving LaTeX notes and separated into formal claims, intuition, and interactive reasoning.
+      </p>
+      <div class="hero-actions">
+        <a class="primary-action" href="#concepts">Explore the concepts</a>
+        <span>{catalog.concepts.length} formal units indexed</span>
+      </div>
+    </div>
+    <div class="hero-visual" aria-label="A sequence approaching zero without reaching it">
+      <div class="infinity-mark">∞</div>
+      <div class="limit-line"><span>0</span></div>
+      {[1, 2, 3, 4, 5, 6].map((point) => (
+        <span class={`orbit-point point-${point}`}>{point === 1 ? '1/n' : ''}</span>
+      ))}
+      <p>approaches<br /><strong>without collapsing</strong></p>
+    </div>
+  </section>
+
+  <section class="source-strip" aria-label="Source status">
+    <span class="live-dot"></span>
+    <p>Source snapshot</p>
+    <code>{String(catalog.source.sourceCommit).slice(0, 8)}</code>
+    <p>{sourceDate}</p>
+    <p>{drafts.size} reviewed explanation drafts</p>
+  </section>
+
+  <section class="concept-browser" id="concepts">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Concept atlas</p>
+        <h2>The structure of the notes</h2>
+      </div>
+      <label class="search-field">
+        <span>Filter concepts</span>
+        <input type="search" placeholder="Try “ultrafilter”" data-concept-search />
+      </label>
+    </div>
+
+    <div class="chapter-grid">
+      {browseChapters.map(({ section, concepts }) => (
+          <article class="chapter-card" data-chapter data-search={`${section.title} ${concepts.map((concept) => concept.title).join(' ')}`.toLowerCase()}>
+            <div class="chapter-index">{String(section.order + 1).padStart(2, '0')}</div>
+            <div class="chapter-content">
+              <h3>{section.title}</h3>
+              {section.summary && <p>{section.summary.replace(/\$|\\/g, '').slice(0, 180)}</p>}
+              <div class="concept-links">
+                {concepts.slice(0, 8).map((concept) => (
+                  <a href={`${base}concepts/${concept.slug}/`}>
+                    <span>{concept.type}</span>
+                    {concept.title}
+                    {concept.status === 'review' && <i>draft source</i>}
+                  </a>
+                ))}
+                {concepts.length > 8 && <small>+ {concepts.length - 8} further entries</small>}
+              </div>
+            </div>
+          </article>
+      ))}
+    </div>
+    <p class="empty-search" hidden data-empty-search>No concepts match that search.</p>
+  </section>
+
+  <section class="method-section" id="method">
+    <div>
+      <p class="eyebrow">Publishing method</p>
+      <h2>Machine-assisted.<br />Human-decided.</h2>
+    </div>
+    <ol>
+      <li><span>01</span><strong>Synchronize</strong><p>A manual action imports a deliberate Overleaf checkpoint.</p></li>
+      <li><span>02</span><strong>Generate</strong><p>Formal structure is parsed; intuition and animation drafts are proposed.</p></li>
+      <li><span>03</span><strong>Inspect</strong><p>A dedicated branch and live PR preview make every change reviewable.</p></li>
+      <li><span>04</span><strong>Publish</strong><p>Only merging the reviewed PR updates the public website.</p></li>
+    </ol>
+  </section>
+
+  <script>
+    const search = document.querySelector<HTMLInputElement>('[data-concept-search]');
+    const cards = [...document.querySelectorAll<HTMLElement>('[data-chapter]')];
+    const empty = document.querySelector<HTMLElement>('[data-empty-search]');
+    search?.addEventListener('input', () => {
+      const query = search.value.trim().toLowerCase();
+      let visible = 0;
+      cards.forEach((card) => {
+        const matches = !query || card.dataset.search?.includes(query);
+        card.hidden = !matches;
+        if (matches) visible += 1;
+      });
+      if (empty) empty.hidden = visible > 0;
+    });
+  </script>
+</SiteLayout>

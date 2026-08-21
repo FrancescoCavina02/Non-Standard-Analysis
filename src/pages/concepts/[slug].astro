@@ -1,0 +1,79 @@
+---
+import type { GetStaticPaths } from 'astro';
+import ConceptAnimation from '../../components/ConceptAnimation.astro';
+import MathText from '../../components/MathText.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import catalog from '../../data/generated/concepts.json';
+import explanations from '../../data/generated/explanations.json';
+import type { ExplanationDraft } from '../../data/types';
+
+export const getStaticPaths = (() => catalog.concepts.map((concept) => ({
+  params: { slug: concept.slug },
+  props: { concept },
+}))) satisfies GetStaticPaths;
+
+const { concept } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const explanationDrafts = explanations.explanations as ExplanationDraft[];
+const draft = explanationDrafts.find((entry) => entry.slug === concept.slug);
+const peers = catalog.concepts
+  .filter((entry) => entry.sectionSlug === concept.sectionSlug && entry.slug !== concept.slug)
+  .slice(0, 4);
+---
+
+<SiteLayout title={concept.title} description={draft?.summary || concept.statement.slice(0, 150)}>
+  <article class="concept-page">
+    <a class="back-link" href={`${base}#concepts`}>← Concept atlas</a>
+    <header class="concept-header">
+      <div>
+        <p class="eyebrow">{concept.sectionTitle} / {concept.type}</p>
+        <h1>{concept.title}</h1>
+      </div>
+      <div class:list={['status-stamp', { warning: concept.status === 'review' }]}>
+        <span>{concept.status === 'review' ? 'Source needs review' : 'Source indexed'}</span>
+        <small>{concept.sourceFile}:{concept.sourceLine}</small>
+      </div>
+    </header>
+
+    <div class="concept-layout">
+      <div class="concept-main">
+        <section class="formal-block">
+          <p class="block-label">Formal statement</p>
+          <MathText text={concept.statement} />
+        </section>
+
+        {draft ? (
+          <>
+            <section class="explanation-block">
+              <p class="block-label">Intuition</p>
+              <p class="lead-explanation">{draft.intuition}</p>
+              <p>{draft.summary}</p>
+            </section>
+            <section class="reasoning-block">
+              <p class="block-label">Reasoning path</p>
+              <ol>
+                {draft.reasoningSteps.map((step, index) => <li><span>{index + 1}</span><p>{step}</p></li>)}
+              </ol>
+            </section>
+            {draft.caution && <aside class="caution"><strong>Review note</strong><p>{draft.caution}</p></aside>}
+          </>
+        ) : (
+          <section class="explanation-block pending">
+            <p class="block-label">Explanation draft</p>
+            <p>This formal unit has been indexed from the notes. Its intuition and reasoning layer has not yet passed through the review workflow.</p>
+          </section>
+        )}
+      </div>
+
+      <aside class="concept-side">
+        <ConceptAnimation kind={draft?.animation || concept.animation} caption={draft?.animationCaption || 'Use the control to inspect the underlying structure.'} />
+        {peers.length > 0 && (
+          <nav class="related-concepts" aria-label="Related concepts">
+            <p class="block-label">Nearby in the notes</p>
+            {peers.map((peer) => <a href={`${base}concepts/${peer.slug}/`}>{peer.title}<span>→</span></a>)}
+          </nav>
+        )}
+      </aside>
+    </div>
+  </article>
+</SiteLayout>

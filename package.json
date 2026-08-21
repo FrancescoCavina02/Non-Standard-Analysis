@@ -1,0 +1,23 @@
+{
+  "name": "non-standard-analysis",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npm run generate && astro dev",
+    "generate": "node scripts/generate-content.mjs",
+    "generate:ai": "node scripts/generate-ai-drafts.mjs",
+    "sync:source": "node scripts/sync-source.mjs",
+    "validate:content": "node scripts/validate-generated.mjs",
+    "check": "npm run generate && npm run validate:content && astro check",
+    "build": "npm run generate && astro build"
+  },
+  "dependencies": {
+    "@astrojs/check": "0.9.10",
+    "astro": "7.2.1",
+    "katex": "0.18.4",
+    "typescript": "6.0.3"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

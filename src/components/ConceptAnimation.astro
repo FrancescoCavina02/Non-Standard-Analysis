@@ -1,0 +1,137 @@
+---
+interface Props {
+  kind: 'sequence' | 'partition' | 'chain' | 'quotient' | 'reasoning' | string;
+  caption?: string;
+}
+
+const { kind, caption } = Astro.props;
+---
+
+<figure class="concept-animation" data-animation={kind}>
+  <div class="animation-stage">
+    {kind === 'sequence' && (
+      <>
+        <div class="sequence-axis" aria-hidden="true">
+          <span class="zero-label">0</span>
+          <span class="sequence-point" data-sequence-point></span>
+          <span class="sequence-trace"></span>
+        </div>
+        <p class="animation-readout"><span>n = </span><strong data-n>12</strong><span>, 1/n = </span><strong data-value>0.0833</strong></p>
+        <input data-control type="range" min="1" max="160" value="12" aria-label="Sequence index n" />
+      </>
+    )}
+
+    {kind === 'partition' && (
+      <>
+        <div class="set-grid" aria-label="Sets separated by whether they contain the distinguished point">
+          {['{i}', '{a,i}', '{i,b}', '{a,i,b}', '{a}', '{b}', '{a,b}', '∅'].map((set, index) => (
+            <span class:list={['set-cell', { chosen: index < 4 }]}>{set}</span>
+          ))}
+        </div>
+        <p class="animation-readout" data-partition-label>A principal ultrafilter chooses every set containing i.</p>
+        <button class="animation-button" data-toggle type="button">Switch viewpoint</button>
+      </>
+    )}
+
+    {kind === 'chain' && (
+      <>
+        <div class="chain-stage" aria-label="An increasing chain of filters">
+          {[1, 2, 3, 4].map((stage) => <span class={`chain-ring ring-${stage}`}>F<sub>{stage}</sub></span>)}
+        </div>
+        <p class="animation-readout">Current upper stage: <strong data-stage>F₂</strong></p>
+        <input data-control type="range" min="1" max="4" value="2" aria-label="Chain stage" />
+      </>
+    )}
+
+    {kind === 'quotient' && (
+      <>
+        <div class="quotient-stage" aria-label="Sequences grouped into an equivalence class">
+          <span class="sequence-card card-a">r</span>
+          <span class="sequence-card card-b">s</span>
+          <span class="sequence-card card-c">t</span>
+          <span class="class-card">[r]</span>
+        </div>
+        <p class="animation-readout" data-quotient-label>Representatives remain distinct sequences.</p>
+        <button class="animation-button" data-toggle type="button">Apply equivalence</button>
+      </>
+    )}
+
+    {!['sequence', 'partition', 'chain', 'quotient'].includes(kind) && (
+      <>
+        <ol class="reasoning-stage">
+          <li class="active">Start with the formal conditions.</li>
+          <li>Track what each condition forces.</li>
+          <li>Read the conclusion as a structural fact.</li>
+        </ol>
+        <button class="animation-button" data-next type="button">Next step</button>
+      </>
+    )}
+  </div>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-animation]').forEach((animation) => {
+    const kind = animation.dataset.animation;
+    const control = animation.querySelector<HTMLInputElement>('[data-control]');
+    const toggle = animation.querySelector<HTMLButtonElement>('[data-toggle]');
+
+    if (kind === 'sequence' && control) {
+      const update = () => {
+        const n = Number(control.value);
+        const point = animation.querySelector<HTMLElement>('[data-sequence-point]');
+        const nLabel = animation.querySelector<HTMLElement>('[data-n]');
+        const valueLabel = animation.querySelector<HTMLElement>('[data-value]');
+        if (point) point.style.left = `${Math.max(2, 92 / n)}%`;
+        if (nLabel) nLabel.textContent = String(n);
+        if (valueLabel) valueLabel.textContent = (1 / n).toPrecision(3);
+      };
+      control.addEventListener('input', update);
+      update();
+    }
+
+    if (kind === 'chain' && control) {
+      const update = () => {
+        const stage = Number(control.value);
+        animation.querySelectorAll<HTMLElement>('.chain-ring').forEach((ring, index) => {
+          ring.classList.toggle('visible', index < stage);
+        });
+        const label = animation.querySelector<HTMLElement>('[data-stage]');
+        if (label) label.textContent = `F${'₁₂₃₄'[stage - 1]}`;
+      };
+      control.addEventListener('input', update);
+      update();
+    }
+
+    if (kind === 'partition' && toggle) {
+      toggle.addEventListener('click', () => {
+        const reversed = animation.classList.toggle('reversed');
+        const label = animation.querySelector<HTMLElement>('[data-partition-label]');
+        if (label) label.textContent = reversed
+          ? 'The complement side omits i, so none of it is chosen.'
+          : 'A principal ultrafilter chooses every set containing i.';
+      });
+    }
+
+    if (kind === 'quotient' && toggle) {
+      toggle.addEventListener('click', () => {
+        const merged = animation.classList.toggle('merged');
+        const label = animation.querySelector<HTMLElement>('[data-quotient-label]');
+        if (label) label.textContent = merged
+          ? 'Agreement on a large set sends them to one equivalence class.'
+          : 'Representatives remain distinct sequences.';
+        toggle.textContent = merged ? 'Separate representatives' : 'Apply equivalence';
+      });
+    }
+
+    const next = animation.querySelector<HTMLButtonElement>('[data-next]');
+    if (next) {
+      next.addEventListener('click', () => {
+        const steps = [...animation.querySelectorAll<HTMLElement>('.reasoning-stage li')];
+        const current = steps.findIndex((step) => step.classList.contains('active'));
+        steps[current]?.classList.remove('active');
+        steps[(current + 1) % steps.length]?.classList.add('active');
+      });
+    }
+  });
+</script>

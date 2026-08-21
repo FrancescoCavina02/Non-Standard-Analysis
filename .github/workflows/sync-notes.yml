@@ -1,0 +1,125 @@
+name: Sync notes and draft explanations
+
+on:
+  workflow_dispatch:
+    inputs:
+      generate_ai:
+        description: Draft intuition and reasoning with AI
+        required: true
+        default: true
+        type: boolean
+
+concurrency:
+  group: notes-generation
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  synchronize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out website
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Preserve drafts from an open review branch
+        shell: bash
+        run: |
+          if git fetch origin generated/notes-review; then
+            git show FETCH_HEAD:src/data/generated/explanations.json > src/data/generated/explanations.json
+          fi
+
+      - name: Check out private notes source
+        uses: actions/checkout@v4
+        with:
+          repository: eulac-com/6a4c8b2d31fcaba2ea9800
+          token: ${{ secrets.SOURCE_REPOSITORY_TOKEN }}
+          path: _notes-source
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Record source revision
+        id: source
+        shell: bash
+        run: |
+          source_commit=$(git -C _notes-source rev-parse HEAD)
+          source_date=$(git -C _notes-source show -s --format=%cI HEAD)
+          echo "commit=$source_commit" >> "$GITHUB_OUTPUT"
+          echo "date=$source_date" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Synchronize LaTeX sources
+        run: npm run sync:source -- _notes-source notes/source
+        env:
+          SOURCE_REPOSITORY: eulac-com/6a4c8b2d31fcaba2ea9800
+          SOURCE_COMMIT: ${{ steps.source.outputs.commit }}
+          SYNCED_AT: ${{ steps.source.outputs.date }}
+
+      - name: Build the formal concept catalog
+        run: npm run generate
+
+      - name: Draft explanations
+        if: ${{ inputs.generate_ai }}
+        run: npm run generate:ai
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: gpt-5-mini
+          MAX_CONCEPTS: 12
+
+      - name: Validate the generated website
+        run: npm run check
+
+      - name: Create or update review pull request
+        id: review
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ github.token }}
+          branch: generated/notes-review
+          base: main
+          delete-branch: true
+          draft: true
+          commit-message: "content: synchronize notes and generated explanations"
+          title: "Review synchronized notes and generated explanations"
+          body: |
+            ## Generated Review
+
+            This pull request was produced by the manual notes synchronization workflow.
+
+            - Source: `eulac-com/6a4c8b2d31fcaba2ea9800`
+            - Source commit: `${{ steps.source.outputs.commit }}`
+            - AI drafting: `${{ inputs.generate_ai }}`
+
+            Inspect the deployed preview before marking this draft ready and merging it. Merging is the only action that publishes these changes to the main website.
+
+      - name: Build pull request preview
+        if: ${{ steps.review.outputs.pull-request-number }}
+        run: npm run build
+        env:
+          BASE_PATH: /Non-Standard-Analysis/pr-preview/pr-${{ steps.review.outputs.pull-request-number }}
+
+      - name: Deploy pull request preview
+        if: ${{ steps.review.outputs.pull-request-number }}
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: dist
+          preview-branch: gh-pages
+          pr-number: ${{ steps.review.outputs.pull-request-number }}
+          action: deploy
+          qr-code: false
+          wait-for-pages-deployment: false
+
+      - name: Report no changes
+        if: ${{ steps.review.outputs.pull-request-number == '' }}
+        run: echo "The source revision produced no website changes, so no review PR was needed."

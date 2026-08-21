@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.astro/
+_notes-source/
+.DS_Store
+Non_Standard_Analysis.pdf
+notes/source/*.aux
+notes/source/*.bbl
+notes/source/*.blg
+notes/source/*.fdb_latexmk
+notes/source/*.fls
+notes/source/*.log
+notes/source/*.out
+notes/source/*.synctex.gz

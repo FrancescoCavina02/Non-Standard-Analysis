@@ -1,0 +1,50 @@
+---
+import katex from 'katex';
+
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+
+function escapeHtml(value: string) {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+function render(value: string) {
+  const segments = value.split(/(\\\[[\s\S]*?\\\]|\\\([\s\S]*?\\\)|\$\$[\s\S]*?\$\$|\$[^$\n]+\$)/g);
+  return segments.map((segment) => {
+    const display = (segment.startsWith('$$') && segment.endsWith('$$'))
+      || (segment.startsWith('\\[') && segment.endsWith('\\]'));
+    const inline = (segment.startsWith('$') && segment.endsWith('$'))
+      || (segment.startsWith('\\(') && segment.endsWith('\\)'));
+    if (!display && !inline) return escapeHtml(segment).replaceAll('\n', '<br />');
+
+    const delimiterLength = segment.startsWith('$$') || segment.startsWith('\\[') || segment.startsWith('\\(') ? 2 : 1;
+    const expression = segment.slice(delimiterLength, -delimiterLength);
+    return katex.renderToString(expression, {
+      displayMode: display,
+      throwOnError: false,
+      strict: false,
+      macros: {
+        '\\Ns': '\\mathbb{N}',
+        '\\Rs': '\\mathbb{R}',
+        '\\R': '\\mathbb{R}',
+        '\\fa': '\\forall',
+        '\\ldb': '\\llbracket',
+        '\\rdb': '\\rrbracket',
+        '\\suc': '#1^{+\!+}',
+        '\\str': '{}^*#1',
+        '\\leftindex': '{}',
+      },
+    });
+  }).join('');
+}
+---
+
+<span class="math-text" set:html={render(text)} />
