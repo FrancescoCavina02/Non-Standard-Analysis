@@ -3,6 +3,8 @@ name: Publish website
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - notes/source/**
   workflow_dispatch:
 
 concurrency:

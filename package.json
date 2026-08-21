@@ -6,7 +6,6 @@
     "dev": "npm run generate && astro dev",
     "generate": "node scripts/generate-content.mjs",
     "generate:ai": "node scripts/generate-ai-drafts.mjs",
-    "sync:source": "node scripts/sync-source.mjs",
     "validate:content": "node scripts/validate-generated.mjs",
     "check": "npm run generate && npm run validate:content && astro check",
     "build": "npm run generate && astro build"

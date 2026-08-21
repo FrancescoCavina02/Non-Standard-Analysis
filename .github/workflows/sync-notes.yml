@@ -6,7 +6,7 @@ on:
       generate_ai:
         description: Draft intuition and reasoning with AI
         required: true
-        default: true
+        default: false
         type: boolean
 
 concurrency:
@@ -33,23 +33,22 @@ jobs:
             git show FETCH_HEAD:src/data/generated/explanations.json > src/data/generated/explanations.json
           fi
 
-      - name: Check out private notes source
-        uses: actions/checkout@v4
-        with:
-          repository: eulac-com/6a4c8b2d31fcaba2ea9800
-          token: ${{ secrets.SOURCE_REPOSITORY_TOKEN }}
-          path: _notes-source
-          fetch-depth: 1
-          persist-credentials: false
-
       - name: Record source revision
         id: source
         shell: bash
         run: |
-          source_commit=$(git -C _notes-source rev-parse HEAD)
-          source_date=$(git -C _notes-source show -s --format=%cI HEAD)
+          source_commit=$(git rev-parse HEAD)
+          source_date=$(git show -s --format=%cI HEAD)
           echo "commit=$source_commit" >> "$GITHUB_OUTPUT"
           echo "date=$source_date" >> "$GITHUB_OUTPUT"
+
+          cat > notes/source.json <<EOF
+          {
+            "sourceRepository": "${{ github.repository }}",
+            "sourceCommit": "$source_commit",
+            "syncedAt": "$source_date"
+          }
+          EOF
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -60,18 +59,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Synchronize LaTeX sources
-        run: npm run sync:source -- _notes-source notes/source
-        env:
-          SOURCE_REPOSITORY: eulac-com/6a4c8b2d31fcaba2ea9800
-          SOURCE_COMMIT: ${{ steps.source.outputs.commit }}
-          SYNCED_AT: ${{ steps.source.outputs.date }}
-
       - name: Build the formal concept catalog
         run: npm run generate
 
       - name: Draft explanations
-        if: ${{ inputs.generate_ai }}
+        if: ${{ inputs.generate_ai && secrets.OPENAI_API_KEY != '' }}
         run: npm run generate:ai
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -97,7 +89,7 @@ jobs:
 
             This pull request was produced by the manual notes synchronization workflow.
 
-            - Source: `eulac-com/6a4c8b2d31fcaba2ea9800`
+            - Source: `${{ github.repository }}`
             - Source commit: `${{ steps.source.outputs.commit }}`
             - AI drafting: `${{ inputs.generate_ai }}`
 
