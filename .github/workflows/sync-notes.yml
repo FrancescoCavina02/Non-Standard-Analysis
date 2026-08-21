@@ -63,7 +63,7 @@ jobs:
         run: npm run generate
 
       - name: Draft explanations
-        if: ${{ inputs.generate_ai && secrets.OPENAI_API_KEY != '' }}
+        if: ${{ inputs.generate_ai }}
         run: npm run generate:ai
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
